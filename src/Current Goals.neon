@@ -22,9 +22,9 @@ CODE:
 -   Hue and Lightness adjustments for zombie shirts
     Lag Reduction
     Optimize
-    Player health and thirst need to decrease over time
-        Develop formula for calculation regeration rate based on health and thirst
-            regen = (health - maxhealth/2) + (thirst - maxthirst/2)
+-   Player health and thirst need to decrease over time
+-       Develop formula for calculation regeration rate based on health and thirst
+-           regen = (health - maxhealth/2) + (thirst - maxthirst/2)
     Remove Ghost Items in upper left corner
     Multiple texture pack selection < Need to develop a standardized layout _ Possibly ZIP
     Load and Save Games

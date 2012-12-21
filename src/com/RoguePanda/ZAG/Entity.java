@@ -285,11 +285,23 @@ public abstract class Entity {
      *
      * @param h The amount to heal by
      */
-    public void heal(double h) {
-        health += h;
-        if (health > maxHealth) {
-            health = maxHealth;
+    public boolean heal(double h) {
+        if (!dead) {
+            health += h;
+            if (health > maxHealth) {
+                health = maxHealth;
+            }
+            if (health <= 0) {
+                dead = true;
+                deathCause = 6;
+                onDeath();
+                /**
+                 * 1 = fall damage 2 = player melee 3 = player range 4 = trap 5
+                 * = splash damage 6 = starvation/dehydration
+                 */
+            }
         }
+        return dead;
     }
 
     /**

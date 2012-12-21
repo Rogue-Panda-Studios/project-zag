@@ -29,9 +29,9 @@ class AIPlayer extends AI {
             ret = false;
             player.level.game.cgui.paused = true;
         } else {
-            double regen = ((player.hunger - 25) * .001) + ((player.thirst - 25) * .001);
+            double regen = ((player.hunger - 25) * .001) + ((player.thirst - 25) * .001) / 10;
             player.setRegenRate(regen);
-            player.hunger -= (.01 * Math.abs(player.velocity.getX()) + .01);
+            player.hunger -= (.001 * Math.abs(player.velocity.getX()) + .01);
             player.thirst -= .0001;
             player.heal(player.getRegenRate());
             /*for (Entity e : player.level.game.currentLevel.entities) {
