@@ -31,6 +31,10 @@ public class Block {
      */
     BufferedImage itemsheet;
     /**
+     * The image that holds sprites for game objects
+     */
+    BufferedImage objectsheet;
+    /**
      * The image that holds sprites for a simple zombie
      */
     BufferedImage simplezombie;
@@ -45,6 +49,7 @@ public class Block {
         entities = new ArrayList<>();
         try {
             itemsheet = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/itemSheet0.png"));
+            objectsheet = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/objectSheet.png"));
             simplezombie = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/BasicZombie1.png"));
         } catch (IOException ex) {
             Logger.getLogger(Block.class.getName()).log(Level.SEVERE, null, ex);

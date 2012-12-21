@@ -60,7 +60,7 @@ public class AITasks {
                 break;
             }
         }
-        if (entity.isMonster()) {
+        if (!entity.isPlayer) {
             if (entity.direction > 0) {
                 entity.setSprite(ImageManipulator.selectFromSheet(
                         entity.spriteSheet,

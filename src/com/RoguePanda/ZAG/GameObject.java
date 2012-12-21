@@ -27,10 +27,11 @@ public class GameObject extends Entity {
      */
     public GameObject(String n, int h, Point l, Block le, int id) {
         super(n, h, l, le);
-        setSpriteSheet(level.itemsheet);
+        setSpriteSheet(level.objectsheet);
         setSprite(ImageManipulator.selectFromSheet(spriteSheet, id, 64, 64));
         objectID = id;
         monster = false;
+        direction = -1;
         tasks.add(new AIObject(this));
     }
 }

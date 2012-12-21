@@ -6,12 +6,13 @@ CODE:
 -   Zombies spawn halfway through walk cycle
 -   Everything is bouncy (due to issues with setting location when below ground, need to change from boundry box to location)
     Allow items to be autostacked in inventory
+    Consumable Items
 -   Fire zombies shoot themselves when facing left
-    Zombies do not stop when they are supposed to while chasing the player
+-   Zombies do not stop when they are supposed to while chasing the player
     Walk cycle glitches
         Frames missing
-    Pause Menu
-    Death Menu
+    Fix Pause Menu not centering
+-   Death Menu
     Credits Menu
     Building generation < Needs building art first
     Fix Key Remapping
@@ -29,7 +30,7 @@ CODE:
     Multiple texture pack selection < Need to develop a standardized layout _ Possibly ZIP
     Load and Save Games
     Loading Screen < Create loader thread
-    Player speed dertemined by weight so 0kg is fater than 1kg. 0 movment (incurmberment) at max weight.
+    Player speed dertemined by weight so 0kg is faster than 1kg. 0 movment (incumberment) at max weight.
 
 ART:
     Zombie death

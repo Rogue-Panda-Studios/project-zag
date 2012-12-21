@@ -14,6 +14,7 @@ public class AIDroppedItem extends AI {
 
     int waiter = 0;
     DroppedItem di;
+    int dropTimer = 30;
 
     /**
      *
@@ -26,18 +27,22 @@ public class AIDroppedItem extends AI {
 
     @Override
     public boolean execute() {
-        if (entity.boundingBox.intersects(entity.level.game.player.boundingBox)) {
-            entity.level.game.player.items.addItemStack(di.itemst);
-            Cleanup.remove(entity.level, entity);
-        }
-        if (waiter > 5) {
-            waiter = 0;
-            entity.health--;
+        if (dropTimer < 0) {
+            if (entity.boundingBox.intersects(entity.level.game.player.boundingBox)) {
+                entity.level.game.player.items.addItemStack(di.itemst);
+                Cleanup.remove(entity.level, entity);
+            }
+            if (waiter > 5) {
+                waiter = 0;
+                entity.health--;
+            } else {
+                waiter++;
+            }
+            if (entity.health < 0) {
+                Cleanup.remove(entity.level, entity);
+            }
         } else {
-            waiter++;
-        }
-        if (entity.health < 0) {
-            Cleanup.remove(entity.level, entity);
+            dropTimer--;
         }
         return true;
     }

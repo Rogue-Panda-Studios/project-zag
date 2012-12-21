@@ -18,6 +18,7 @@ public class AIObject extends AI {
      * The Entity that owns this AI
      */
     GameObject go;
+    int counter;
 
     /**
      *
@@ -32,7 +33,26 @@ public class AIObject extends AI {
     public boolean execute() {
         boolean ret = true;
         switch (go.objectID) {
+            case 0:
+                //go.velocity.setLocation((int) (Math.random() * 7) - 3, -((int) (Math.random() * 7) - 3));
+                if (counter > 10) {
+                    go.objectID = 1;
+                    go.spritenumber=1;
+                    counter = 0;
+                } else {
+                    counter++;
+                }
+                break;
             case 1:
+                if (counter > 10) {
+                    counter = 0;
+                    go.objectID = 0;
+                    go.spritenumber=0;
+                } else {
+                    counter++;
+                }
+                break;
+            case 3:
                 if (go.waiter > 10) {
                     DroppedItem d = new DroppedItem("Item", 10, new Point2D.Double(go.location.getX(), go.location.getY()), go.level, new ItemStack(0, 1));
                     d.velocity = new Point((int) (Math.random() * 7) - 3, -((int) (Math.random() * 5) + 3));

@@ -18,6 +18,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashSet;
@@ -469,6 +470,16 @@ class CardGUI extends JFrame implements Runnable {
                         debugText.setBackground(new Color(0, 0, 0, 50));
                     }
                 }
+                if (ke.getKeyChar() == dropKey) {
+                    currentGame.currentLevel.entities.add(new DroppedItem(
+                            "Item",
+                            100,
+                            new Point2D.Double(currentGame.player.location.getX(),
+                            currentGame.player.location.getY()),
+                            currentGame.currentLevel,
+                            new ItemStack(currentGame.player.items.get(0).item.getID())));
+                    //  currentGame.player.items.updateItemStack(1, -1);
+                }
                 if (ke.getKeyCode() == 112) {
                     currentGame.currentLevel.entities.add(new BasicZombie("BasicZombie" + currentGame.currentLevel.entities.size(), 15, new Point(100, 100), currentGame.currentLevel));
                 }
@@ -476,7 +487,7 @@ class CardGUI extends JFrame implements Runnable {
                     currentGame.currentLevel.entities.add(new FireZombie("FireZombie" + currentGame.currentLevel.entities.size(), 15, new Point(100, 100), currentGame.currentLevel));
                 }
                 if (ke.getKeyCode() == 114) {
-                    currentGame.currentLevel.entities.add(new GameObject("Fountain" + currentGame.currentLevel.entities.size(), 15, new Point(200, 100), currentGame.currentLevel, 1));
+                    currentGame.currentLevel.entities.add(new GameObject("Fountain" + currentGame.currentLevel.entities.size(), 15, new Point(200, 100), currentGame.currentLevel, 0));
                 }
                 if (ke.getKeyChar() == 'p') {
                     if (paused) {
@@ -484,6 +495,7 @@ class CardGUI extends JFrame implements Runnable {
                     } else {
                         paused = true;
                     }
+                    gameCanvas.repaint();
                 }
             }
 

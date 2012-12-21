@@ -145,10 +145,7 @@ public class gameUpdates implements Runnable {
                     currentGame.player.velocity.setLocation(currentGame.player.velocity.getX(), -3);
                     currentGame.player.falling = true;
                 }
-                if (gui.pressed.contains(gui.dropKey)) {
-                    currentGame.currentLevel.entities.add(new DroppedItem("Item", 100, new Point2D.Double(currentGame.player.location.getX(), currentGame.player.location.getY()), currentGame.currentLevel, new ItemStack(currentGame.player.items.get(0).item.getID())));
-                    currentGame.player.items.updateItemStack(1, -1);
-                }
+
             }
         }
         for (Entity e : gui.currentGame.currentLevel.entities) {
