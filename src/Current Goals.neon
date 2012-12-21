@@ -1,0 +1,44 @@
+CODE:
+-   Fix one key only bug
+-   Fix bug where zombies do not turn when you are behind them
+-   Change points to point2ds
+    Fix item throwing bug
+-   Zombies spawn halfway through walk cycle
+-   Everything is bouncy (due to issues with setting location when below ground, need to change from boundry box to location)
+    Allow items to be autostacked in inventory
+-   Fire zombies shoot themselves when facing left
+    Zombies do not stop when they are supposed to while chasing the player
+    Walk cycle glitches
+        Frames missing
+    Pause Menu
+    Death Menu
+    Credits Menu
+    Building generation < Needs building art first
+    Fix Key Remapping
+    Select sprites from multiple sheets < Needs multiple sprite sheets first
+    Charactor sprite construction < Needs charactor sprite first
+    Inventory Management and Display < Needs GUI first
+    Ability to stand on dead bodies and objects
+-   Hue and Lightness adjustments for zombie shirts
+    Lag Reduction
+    Optimize
+    Player health and thirst need to decrease over time
+        Develop formula for calculation regeration rate based on health and thirst
+            regen = (health - maxhealth/2) + (thirst - maxthirst/2)
+    Remove Ghost Items in upper left corner
+    Multiple texture pack selection < Need to develop a standardized layout _ Possibly ZIP
+    Load and Save Games
+    Loading Screen < Create loader thread
+    Player speed dertemined by weight so 0kg is fater than 1kg. 0 movment (incurmberment) at max weight.
+
+ART:
+    Zombie death
+    Charactor
+        Seperate sprite sheets for head arms body and legs
+    Charactor Animation
+    Objects
+        TV
+    Buildings
+
+GUI:
+    Inventory
