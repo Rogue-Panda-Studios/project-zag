@@ -40,10 +40,10 @@ public class BasicZombie extends Entity {
         tasks.add(new AIChasePlayer(this, 1, 5, 100));
         tasks.add(new AIAttackPlayerMelee(this, 15, 5));
         double rand = Math.random();
-        if (rand> .5) {
+        if (rand > .5) {
             tasks.add(new AIWander(this, 1));
         } else {
-            tasks.add(new AIWander(this, .5));
+            tasks.add(new AIWander(this, .25));
         }
         tasks.add(new AIDeathAnimation(this));
     }
