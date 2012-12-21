@@ -62,7 +62,7 @@ public class GameCanvas extends JPanel {
         try {
             try {
                 for (Building b : cgui.currentGame.currentLevel.buildings) {
-                    g.drawImage(b.sprite, b.location.x, b.location.y, null);
+                    g.drawImage(b.outsideSprite, b.location.x, b.location.y, null);
                 }
             } catch (Exception be) {
             }

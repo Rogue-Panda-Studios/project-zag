@@ -31,7 +31,9 @@ public class GameObject extends Entity {
         setSprite(ImageManipulator.selectFromSheet(spriteSheet, id, 64, 64));
         objectID = id;
         monster = false;
-        direction = -1;
+        while (direction == 0) {
+            direction = (int) (Math.random() * 3) - 1;
+        }
         tasks.add(new AIObject(this));
     }
 }

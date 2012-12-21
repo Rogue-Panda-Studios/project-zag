@@ -34,8 +34,8 @@ public class AIObject extends AI {
         boolean ret = true;
         switch (go.objectID) {
             case 0:
-                //go.velocity.setLocation((int) (Math.random() * 7) - 3, -((int) (Math.random() * 7) - 3));
-                if (counter > 10) {
+                go.velocity.setLocation((int) (Math.random() * 7) - 3, -((int) (Math.random() * 7) - 3));
+                if (counter > 2) {
                     go.objectID = 1;
                     go.spritenumber=1;
                     counter = 0;
@@ -44,7 +44,7 @@ public class AIObject extends AI {
                 }
                 break;
             case 1:
-                if (counter > 10) {
+                if (counter > 2) {
                     counter = 0;
                     go.objectID = 0;
                     go.spritenumber=0;

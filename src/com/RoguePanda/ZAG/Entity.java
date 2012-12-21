@@ -48,6 +48,7 @@ public abstract class Entity {
     protected int[] chaseSprites;
     protected int lightLevel;
     protected boolean clippable;
+    protected boolean phazing;
     /**
      * The current sprite number, with 0 being the sprite in the upper left
      */
