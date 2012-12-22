@@ -6,6 +6,7 @@ package com.RoguePanda.ZAG;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
@@ -20,6 +21,7 @@ public class GameCanvas extends JPanel {
 
     private static final long serialVersionUID = 1L;
     CardGUI cgui;
+    BuildingObject bo;
 
     /**
      *
@@ -27,6 +29,7 @@ public class GameCanvas extends JPanel {
      */
     GameCanvas(CardGUI aThis) {
         cgui = aThis;
+        bo = new BuildingObject(0, new Point(400, 320));
         this.setSize(1600, 600);
         this.setBounds(0, 0, 1600, 600);
         this.addMouseListener(new MouseListener() {
@@ -73,6 +76,7 @@ public class GameCanvas extends JPanel {
             } else if (cgui.paused) {
                 g.setFont(new java.awt.Font("Tahoma", 0, 36));
                 g.drawString("PAUSED", 340, 300);
+                g.fillPolygon(bo.boundingBox);
             } else {
                 g.setColor(Color.black);
                 g.fillRect(100, 400, 100, 100);

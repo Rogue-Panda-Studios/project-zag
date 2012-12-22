@@ -22,6 +22,7 @@ import javax.swing.JScrollBar;
 public class gameUpdates implements Runnable {
 
     CardGUI gui;
+    Player player;
     int counter;
     int subupdaterate = 6;
     int TARGET_FPS = 40;
@@ -31,6 +32,7 @@ public class gameUpdates implements Runnable {
     gameUpdates(CardGUI g, int tg) {
         gui = g;
         TARGET_FPS = tg;
+        player = gui.currentGame.player;
     }
 
     @Override
@@ -59,7 +61,7 @@ public class gameUpdates implements Runnable {
                     // we last recorded
                     if (lastFpsTime >= 1000000000) {
                         if (gui.debug) {
-                            gui.debugText.setText("FPS: " + fps + " Scroll Position: " + gui.gameDisplay.getHorizontalScrollBar().getValue() + " Player Location: " + gui.currentGame.player.location);
+                            gui.debugText.setText("<html>FPS: " + fps + "<br>Scroll Position: " + gui.gameDisplay.getHorizontalScrollBar().getValue() + "<br>Player Location: " + player.location + "</html>");
                         } else {
                             gui.debugText.setText(null);
                         }
@@ -92,29 +94,30 @@ public class gameUpdates implements Runnable {
         } else {
             slowMotionUpdates();
             //gui.healthBar.setMaximum(gui.player.maxHealth);
-            if ((int) gui.currentGame.player.health != gui.healthBar.getValue()) {
+            if ((int) player.health != gui.healthBar.getValue()) {
                 gui.healthBar.setForeground(Color.BLUE);
-                gui.healthBar.setValue((int) gui.currentGame.player.health);
+                gui.healthBar.setValue((int) player.health);
             } else {
-                int g = (int) (255 * (gui.currentGame.player.health / gui.currentGame.player.maxHealth));
+                int g = (int) (255 * (player.health / player.maxHealth));
                 int r = 255 - g;
                 gui.healthBar.setForeground(new Color(r, g, 0));
             }
-            if ((int) gui.currentGame.player.thirst != gui.thirstBar.getValue()) {
-                gui.thirstBar.setValue((int) gui.currentGame.player.thirst);
+            if ((int) player.thirst != gui.thirstBar.getValue()) {
+                gui.thirstBar.setValue((int) player.thirst);
             }
-            if ((int) gui.currentGame.player.hunger != gui.hungerBar.getValue()) {
-                gui.hungerBar.setValue((int) gui.currentGame.player.hunger);
+            if ((int) player.hunger != gui.hungerBar.getValue()) {
+                gui.hungerBar.setValue((int) player.hunger);
             }
             // System.out.println("update");
             counter = 0;
         }
-        hzb.setValue((int) gui.currentGame.player.location.getX() - 375);
+        postMotionUpdates();
+        hzb.setValue((int) player.location.getX() - 375);
     }
 
     private void render() {
-        if (gui.currentGame.player.getItems().get(0) != null) {
-            gui.gamebuttons[0].setIcon(new ImageIcon(gui.currentGame.player.getItems().get(0).sprite));
+        if (player.getItems().get(0) != null) {
+            gui.gamebuttons[0].setIcon(new ImageIcon(player.getItems().get(0).sprite));
         } else {
             try {
                 gui.gamebuttons[0].setIcon(new ImageIcon(ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/noWeapon.png"))));
@@ -150,8 +153,6 @@ public class gameUpdates implements Runnable {
         }
         for (Entity e : gui.currentGame.currentLevel.entities) {
             e.tasks.action();
-            e.boundingBox.x += e.velocity.getX();
-            e.boundingBox.y += e.velocity.getY();
             if (e.boundingBox.getMinX() < 0) {
                 e.boundingBox.x = 0;
                 e.velocity.setLocation(0, e.velocity.getY());
@@ -166,21 +167,19 @@ public class gameUpdates implements Runnable {
             }
         }
         {
-            gui.currentGame.player.tasks.action();
-            gui.currentGame.player.boundingBox.x += gui.currentGame.player.velocity.getX();
-            gui.currentGame.player.boundingBox.y += gui.currentGame.player.velocity.getY();
-            if (gui.currentGame.player.boundingBox.x < 0) {
-                gui.currentGame.player.boundingBox.x = 0;
-                gui.currentGame.player.velocity.setLocation(0, gui.currentGame.player.velocity.getY());
-            } else if (gui.currentGame.player.boundingBox.x > (gui.currentGame.currentLevel.size.width - gui.currentGame.player.boundingBox.width)) {
-                gui.currentGame.player.boundingBox.x = (gui.currentGame.currentLevel.size.width - gui.currentGame.player.boundingBox.width);
+            player.tasks.action();
+            if (player.boundingBox.x < 0) {
+                player.boundingBox.x = 0;
+                player.velocity.setLocation(0, player.velocity.getY());
+            } else if (player.boundingBox.x > (gui.currentGame.currentLevel.size.width - player.boundingBox.width)) {
+                player.boundingBox.x = (gui.currentGame.currentLevel.size.width - player.boundingBox.width);
 
-                gui.currentGame.player.velocity.setLocation(0, gui.currentGame.player.velocity.getY());
+                player.velocity.setLocation(0, player.velocity.getY());
             }
-            if (gui.currentGame.player.boundingBox.y > 490 - gui.currentGame.player.boundingBox.height) {
-                gui.currentGame.player.boundingBox.y = 490 - gui.currentGame.player.boundingBox.height;
-                gui.currentGame.player.velocity.setLocation(gui.currentGame.player.velocity.getX(), 0);
-                gui.currentGame.player.falling = false;
+            if (player.boundingBox.y > 490 - player.boundingBox.height) {
+                player.boundingBox.y = 490 - player.boundingBox.height;
+                player.velocity.setLocation(player.velocity.getX(), 0);
+                player.falling = false;
             }
         }
     }
@@ -200,13 +199,42 @@ public class gameUpdates implements Runnable {
                 }
             }
         }
-        gui.currentGame.player.velocity.setLocation(gui.currentGame.player.velocity.getX(), gui.currentGame.player.velocity.getY() + 1);
-        if (!gui.currentGame.player.falling) {
-            if (gui.currentGame.player.velocity.getX() > 0) {
-                gui.currentGame.player.velocity.setLocation(gui.currentGame.player.velocity.getX() - 1, gui.currentGame.player.velocity.getY());
-            } else if (gui.currentGame.player.velocity.getX() < 0) {
-                gui.currentGame.player.velocity.setLocation(gui.currentGame.player.velocity.getX() + 1, gui.currentGame.player.velocity.getY());
+        player.velocity.setLocation(player.velocity.getX(), player.velocity.getY() + 1);
+        if (!player.falling) {
+            if (player.velocity.getX() > 0) {
+                player.velocity.setLocation(player.velocity.getX() - 1, player.velocity.getY());
+            } else if (player.velocity.getX() < 0) {
+                player.velocity.setLocation(player.velocity.getX() + 1, player.velocity.getY());
             }
+        }
+    }
+
+    private void postMotionUpdates() {
+        double npx = player.velocity.getX(), npy = player.velocity.getY();
+        for (Entity en : gui.currentGame.currentLevel.entities) {
+            if (en.clippable && player.boundingBox.intersects(en.boundingBox)) {
+                if (en.boundingBox.getCenterX() > player.boundingBox.getCenterX()) {
+                    if (player.velocity.getX() > 0) {
+                        npx = 0;
+                    }
+                } else if (en.boundingBox.getCenterX() < player.boundingBox.getCenterX()) {
+                    if (player.velocity.getX() < 0) {
+                        npx = 0;
+                    }
+                }
+            }
+        }
+        player.velocity = new Point2D.Double(npx, npy);
+        player.boundingBox.x += player.velocity.getX();
+        player.boundingBox.y += player.velocity.getY();
+        for (Entity e : gui.currentGame.currentLevel.entities) {
+            for (Entity en : gui.currentGame.currentLevel.entities) {
+                if (en.clippable && e.boundingBox.intersects(en.boundingBox)) {
+                    e.velocity = new Point(0, 0);
+                }
+            }
+            e.boundingBox.x += e.velocity.getX();
+            e.boundingBox.y += e.velocity.getY();
         }
     }
 }

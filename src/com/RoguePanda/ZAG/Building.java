@@ -1,7 +1,6 @@
 package com.RoguePanda.ZAG;
 
 import java.awt.Point;
-import java.awt.Polygon;
 import java.awt.image.BufferedImage;
 
 /**
@@ -15,6 +14,6 @@ class Building {
     BufferedImage insideSprite;
     BufferedImage outsideSprite;
 
-    Building(int[][] chunks, int sheet, BuildingObject[] bo) {
+    Building(int[][] chunks, int sheet, BuildingObject[] bo, Point loc) {
     }
 }

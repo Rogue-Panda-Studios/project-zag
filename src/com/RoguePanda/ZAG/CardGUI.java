@@ -49,21 +49,17 @@ class CardGUI extends JFrame implements Runnable {
     int leftKey, rightKey, jumpKey, dropKey;
     BufferedImage bim;
     Graphics blank;
-    ImageIcon bgicon, bgimage;
-    ImageIcon logo;
-    Image currentWeapon, menuBG, optionsBG, gameBG, test, pi, spaceFiller, hudf, hudb;
-    Image scaleimage;
-    JPanel frame;
-    JLabel backLabel, spaceFillerl, hudfp, hudbp;
-    JPanel mainDisplay;
+    ImageIcon bgicon, bgimage, logo;
+    Image currentWeapon, menuBG, optionsBG, gameBG, test, pi, spaceFiller, hudf,
+            hudb, scaleimage;
+    JPanel frame, mainDisplay, menuCard, optionsCard, gameCard, gameHUD,
+            menuDisplay, optionsDisplay, gameArea, gameDisplayHolder, htStats,
+            pauseMenu;
+    JLabel backLabel, spaceFillerl, hudfp, hudbp, gameBack, menuBack,
+            optionsBack, testl, debugText, playerSprite, pauseText;
     JScrollPane gameDisplay, gameBackDisplay;
-    JPanel menuCard, optionsCard, gameCard;
-    JPanel gameHUD, menuDisplay, optionsDisplay;
-    JPanel gameArea;
     GameCanvas gameCanvas;
     Game currentGame;
-    JPanel gameDisplayHolder, htStats;
-    JLabel gameBack, menuBack, optionsBack, testl, debugText, playerSprite;
     JProgressBar healthBar, hungerBar, thirstBar;
     JLabel[] gamebuttons, menubuttons, optionsbuttons;
     int changeKey = 0;
@@ -123,6 +119,7 @@ class CardGUI extends JFrame implements Runnable {
         menuDisplay = new JPanel();
         gameDisplay = new JScrollPane();
         gameHUD = new JPanel();
+        pauseMenu = new JPanel();
         optionsDisplay = new JPanel();
         mainDisplay = new JPanel();
         hudfp = new JLabel(new ImageIcon(hudf));
@@ -131,6 +128,7 @@ class CardGUI extends JFrame implements Runnable {
         gameCard = new JPanel();
         optionsCard = new JPanel();
         debugText = new JLabel();
+        pauseText = new JLabel("<html><font size=+3>Paused</font><html>");
         gameCanvas = new GameCanvas(this);
         playerSprite = new JLabel(new ImageIcon(pi));
         testl = new JLabel(new ImageIcon(test));
@@ -172,6 +170,8 @@ class CardGUI extends JFrame implements Runnable {
         optionsDisplay.setLayout(new GridBagLayout());
         gameDisplayHolder.setLayout(null);
         htStats.setLayout(new BorderLayout());
+        pauseMenu.setBackground(transparent);
+        pauseText.setBackground(transparent);
         gameCanvas.setBackground(transparent);
         menuDisplay.setBackground(transparent);
         gameDisplay.setBackground(transparent);
@@ -352,6 +352,7 @@ class CardGUI extends JFrame implements Runnable {
         gameDisplayHolder.add(spaceFillerl);
         gameDisplay.setViewportView(gameDisplayHolder);
         gameBackDisplay.setViewportView(gameBack);
+        pauseMenu.add(pauseText);
         menuCard.add(menuDisplay, d);
         menuCard.add(menuBack, d);
         optionsCard.add(optionsDisplay, d);
@@ -481,19 +482,34 @@ class CardGUI extends JFrame implements Runnable {
                     //  currentGame.player.items.updateItemStack(1, -1);
                 }
                 if (ke.getKeyCode() == 112) {
-                    currentGame.currentLevel.entities.add(new BasicZombie("BasicZombie" + currentGame.currentLevel.entities.size(), 15, new Point(100, 100), currentGame.currentLevel));
+                    currentGame.currentLevel.entities.add(new BasicZombie(
+                            "BasicZombie" + currentGame.currentLevel.entities.size(),
+                            15,
+                            new Point(100, 100),
+                            currentGame.currentLevel));
                 }
                 if (ke.getKeyCode() == 115) {
-                    currentGame.currentLevel.entities.add(new FireZombie("FireZombie" + currentGame.currentLevel.entities.size(), 15, new Point(100, 100), currentGame.currentLevel));
+                    currentGame.currentLevel.entities.add(new FireZombie(
+                            "FireZombie" + currentGame.currentLevel.entities.size(),
+                            15,
+                            new Point(100, 100),
+                            currentGame.currentLevel));
                 }
                 if (ke.getKeyCode() == 114) {
-                    currentGame.currentLevel.entities.add(new GameObject("Fountain" + currentGame.currentLevel.entities.size(), 15, new Point(200, 100), currentGame.currentLevel, 0));
+                    currentGame.currentLevel.entities.add(new GameObject(
+                            "Television" + currentGame.currentLevel.entities.size(),
+                            15,
+                            new Point(200, 100),
+                            currentGame.currentLevel,
+                            0));
                 }
                 if (ke.getKeyChar() == 'p') {
                     if (paused) {
                         paused = false;
+                        gameCard.remove(pauseMenu);
                     } else {
                         paused = true;
+                        gameCard.add(pauseMenu, new AbsoluteConstraints(260, 390, -1, -1), 0);
                     }
                     gameCanvas.repaint();
                 }
