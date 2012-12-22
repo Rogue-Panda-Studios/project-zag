@@ -11,6 +11,7 @@ import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
@@ -24,6 +25,7 @@ public class GameCanvas extends JPanel {
     CardGUI cgui;
     BuildingObject bo;
     Building b;
+    BasicZombie z;
 
     /**
      *
@@ -31,9 +33,14 @@ public class GameCanvas extends JPanel {
      */
     GameCanvas(CardGUI aThis) {
         cgui = aThis;
-        bo = new BuildingObject(0, new Point(400, 320));
-        BuildingObject[] bos = new BuildingObject[1];
-        bos[0] = bo;
+        bo = new BuildingObject(0, new Point(400, 0), b);
+        z = new BasicZombie(
+                "BasicZombie" + cgui.currentGame.currentLevel.entities.size(),
+                15,
+                new Point(500, 0),
+                cgui.currentGame.currentLevel);
+        ArrayList<BuildingObject> bos = new ArrayList<>();
+        bos.add(bo);
         int[][] chunks = new int[3][3];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -46,10 +53,11 @@ public class GameCanvas extends JPanel {
                 chunks2[x][y] = 16;
             }
         }
-        chunks[0][1] = 1;
-        chunks[2][1] = 1;
-        chunks[1][2] = 2;
+        chunks[1][1] = 1;
+        chunks[0][2] = 2;
+        chunks[2][2] = 2;
         b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
+        z.inside = b;
         cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
         this.setBounds(0, 0, 1600, 600);
@@ -88,13 +96,20 @@ public class GameCanvas extends JPanel {
             try {
                 for (Building b : cgui.currentGame.currentLevel.buildings) {
                     g.drawImage(b.insideSprite, b.location.x, b.location.y, null);
+                    if (cgui.debug) {
+                        for (BuildingObject bos : b.getObjects()) {
+                            g.drawPolygon(bos.boundingBox);
+                        }
+                    }
                     if (!b.inside) {
                         g.drawImage(b.outsideSprite, b.location.x, b.location.y, null);
                     } else {
                         g.drawImage(b.outsideSpriteClear, b.location.x, b.location.y, null);
                     }
-                    for (Rectangle r : b.entrances) {
-                        g.drawRect(r.x, r.y, r.width, r.height);
+                    if (cgui.debug) {
+                        for (Rectangle r : b.entrances) {
+                            g.drawRect(r.x, r.y, r.width, r.height);
+                        }
                     }
                 }
             } catch (Exception be) {
@@ -117,13 +132,15 @@ public class GameCanvas extends JPanel {
                 }
                 try {
                     for (Entity e : cgui.currentGame.currentLevel.entities) {
-                        r = e.boundingBox;
-                        g.drawImage(e.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
-                        if (cgui.debug) {
-                            g.setColor(Color.green);
-                            g.drawRect((int) r.getMinX(), (int) r.getMinY(), (int) r.getWidth(), (int) r.getHeight());
-                            g.setColor(Color.red);
-                            g.drawRect((int) e.location.getX() - 1, (int) e.location.getY() - 1, 3, 3);
+                        if (e.inside == cgui.currentGame.player.inside) {
+                            r = e.boundingBox;
+                            g.drawImage(e.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
+                            if (cgui.debug) {
+                                g.setColor(Color.green);
+                                g.drawRect((int) r.getMinX(), (int) r.getMinY(), (int) r.getWidth(), (int) r.getHeight());
+                                g.setColor(Color.red);
+                                g.drawRect((int) e.location.getX() - 1, (int) e.location.getY() - 1, 3, 3);
+                            }
                         }
                     }
                 } catch (Exception bu) {

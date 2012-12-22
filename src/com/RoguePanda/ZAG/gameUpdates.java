@@ -213,7 +213,8 @@ public class gameUpdates implements Runnable {
     private void postMotionUpdates() {
         double npx = player.velocity.getX(), npy = player.velocity.getY();
         for (Entity en : gui.currentGame.currentLevel.entities) {
-            if (en.clippable && player.boundingBox.intersects(en.boundingBox)) {
+
+            if (en.clippable && player.inside == en.inside && player.boundingBox.intersects(en.boundingBox)) {
                 if (en.boundingBox.getCenterX() >= player.boundingBox.getCenterX()) {
                     if (player.velocity.getX() > 0) {
                         npx = 0;
@@ -231,13 +232,36 @@ public class gameUpdates implements Runnable {
                 }
             }
         }
+        if (player.inside != null) {
+            if (player.inside.location.x >= player.boundingBox.getMinX()) {
+                if (npx < 0) {
+                    npx = 0;
+                }
+            }
+            if (player.inside.location.x + player.inside.insideSprite.getWidth() <= player.boundingBox.getMaxX()) {
+                if (npx > 0) {
+                    npx = 0;
+                }
+            }
+        }
         player.velocity = new Point2D.Double(npx, npy);
         player.boundingBox.x += player.velocity.getX();
         player.boundingBox.y += player.velocity.getY();
+
         for (Entity e : gui.currentGame.currentLevel.entities) {
+            double nex = e.velocity.getX(), ney = e.velocity.getY();
+            if (e.inside != null) {
+                if (e.boundingBox.getMinX() >= e.inside.location.x) {
+                    e.location.setLocation(e.location.getX() + 2, e.location.getY());
+                }
+                if (e.inside.location.x + e.inside.insideSprite.getWidth() <= e.boundingBox.getMaxX()) {
+                    if (nex > 0) {
+                        nex = 0;
+                    }
+                }
+            }
             for (Entity en : gui.currentGame.currentLevel.entities) {
-                double nex = e.velocity.getX(), ney = e.velocity.getY();
-                if (en.clippable && e.boundingBox.intersects(en.boundingBox)) {
+                if (en.clippable && en.inside == e.inside && e.boundingBox.intersects(en.boundingBox)) {
                     if (en.boundingBox.getCenterX() >= e.boundingBox.getCenterX()) {
                         if (e.velocity.getX() > 0) {
                             nex = 0;

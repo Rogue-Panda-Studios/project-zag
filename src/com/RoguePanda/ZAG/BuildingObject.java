@@ -6,6 +6,7 @@ package com.RoguePanda.ZAG;
 
 import java.awt.Point;
 import java.awt.Polygon;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -15,8 +16,12 @@ class BuildingObject {
 
     public boolean phaze;
     Polygon boundingBox;
+    Building building;
+    BufferedImage sprite;
+    Point location;
 
-    BuildingObject(int type, Point p) {
+    BuildingObject(int type, Point p, Building b) {
+        building = b;
         int[] xpoints;
         int[] ypoints;
         switch (type) {
@@ -31,10 +36,11 @@ class BuildingObject {
                 break;
         }
         boundingBox = new Polygon(xpoints, ypoints, xpoints.length);
-        boundingBox.translate(p.x, p.y);
+        location = p;
     }
 
-    BuildingObject(int[] xpoints, int[] ypoints) {
+    BuildingObject(int[] xpoints, int[] ypoints, Building b) {
+        building = b;
         int nump = xpoints.length;
         if (ypoints.length < nump) {
             nump = ypoints.length;

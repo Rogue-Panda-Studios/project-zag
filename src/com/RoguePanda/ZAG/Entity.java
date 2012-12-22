@@ -49,6 +49,7 @@ public abstract class Entity {
     protected int lightLevel;
     protected boolean clippable;
     protected boolean phazing;
+    public Building inside;
     /**
      * The current sprite number, with 0 being the sprite in the upper left
      */
@@ -106,6 +107,7 @@ public abstract class Entity {
             clippable = false;
             location = l;
             boundingBox = new BoundBox(l.getX(), l.getY(), 0, 0);
+            inside = null;
         } catch (Exception ex) {
             Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -145,6 +147,7 @@ public abstract class Entity {
         for (ItemStack item : items) {
             DroppedItem d = new DroppedItem("Item", 100, new Point2D.Double(location.getX(), location.getY()), level, item);
             d.velocity.setLocation((int) (Math.random() * 7) - 3, -((int) (Math.random() * 5) + 1));
+            d.inside = inside;
             level.entities.add(d);
         }
     }

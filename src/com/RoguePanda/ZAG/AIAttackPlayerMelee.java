@@ -42,7 +42,7 @@ public class AIAttackPlayerMelee extends AI {
     public boolean execute() {
         boolean ret = true;
         int wid = (player.sprite.getWidth() / 2 + entity.sprite.getWidth() / 2) + distance;
-        if (!entity.dead && !entity.falling && entity.location.distance(player.location) < distance && !player.dead) {
+        if (!entity.dead && !entity.falling && entity.inside == player.inside&& entity.location.distance(player.location) < distance && !player.dead) {
             if (entity.location.getX() < (player.location.getX() - wid)) {
                 entity.direction = 1;
             } else if (entity.location.getX() > (player.location.getX() + wid)) {

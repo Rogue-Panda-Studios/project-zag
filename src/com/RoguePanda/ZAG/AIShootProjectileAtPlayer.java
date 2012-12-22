@@ -40,7 +40,7 @@ public class AIShootProjectileAtPlayer extends AI {
     public boolean execute() {
         boolean ret = true;
         int wid = (entity.level.game.player.sprite.getWidth() / 2 + entity.sprite.getWidth() / 2);
-        if (!entity.dead && !entity.falling && entity.location.distance(entity.level.game.player.location) < distance && !entity.level.game.player.dead) {
+        if (!entity.dead && !entity.falling && entity.inside == entity.level.game.player.inside && entity.location.distance(entity.level.game.player.location) < distance && !entity.level.game.player.dead) {
             if (entity.location.getX() < entity.level.game.player.location.getX()) {
                 entity.direction = 1;
             } else if (entity.location.getX() > entity.level.game.player.location.getX()) {

@@ -469,10 +469,11 @@ class CardGUI extends JFrame implements Runnable {
                             if (currentGame.player.boundingBox.intersects(r)) {
                                 if (b.inside) {
                                     b.inside = false;
+                                    currentGame.player.inside = null;
                                 } else {
                                     b.inside = true;
+                                    currentGame.player.inside = b;
                                 }
-                                System.out.println("Building");
                             }
                         }
                     }
@@ -497,11 +498,13 @@ class CardGUI extends JFrame implements Runnable {
                     //  currentGame.player.items.updateItemStack(1, -1);
                 }
                 if (ke.getKeyCode() == 112) {
-                    currentGame.currentLevel.entities.add(new BasicZombie(
+                    BasicZombie bz = new BasicZombie(
                             "BasicZombie" + currentGame.currentLevel.entities.size(),
                             15,
-                            new Point(100, 100),
-                            currentGame.currentLevel));
+                            new Point((int)currentGame.player.location.getX(),(int) currentGame.player.location.getY()-40),
+                            currentGame.currentLevel);
+                    bz.inside=currentGame.player.inside;
+                    currentGame.currentLevel.entities.add(bz);
                 }
                 if (ke.getKeyCode() == 115) {
                     currentGame.currentLevel.entities.add(new FireZombie(

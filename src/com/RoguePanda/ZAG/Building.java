@@ -21,12 +21,12 @@ class Building {
     BufferedImage insideSprite;
     BufferedImage outsideSprite;
     BufferedImage outsideSpriteClear;
-    BuildingObject[] objects;
+    private ArrayList<BuildingObject> objects;
     Block level;
     public ArrayList<Rectangle> entrances;
     boolean inside = false;
 
-    Building(int[][] outsidechunks, int[][] insidechunks, BuildingObject[] bo, Point loc, Block lev) {
+    Building(int[][] outsidechunks, int[][] insidechunks, ArrayList<BuildingObject> bo, Point loc, Block lev) {
         entrances = new ArrayList<>();
         objects = bo;
         level = lev;
@@ -38,7 +38,7 @@ class Building {
         for (int x = 0; x < outsidechunks.length; x++) {
             for (int y = 0; y < outsidechunks[0].length; y++) {
                 if (outsidechunks[x][y] == 2) {
-                    entrances.add(new Rectangle(size * x + loc.x, size * y + loc.y + (size ), size, size));
+                    entrances.add(new Rectangle(size * x + loc.x, size * y + loc.y + size, size, size));
                 }
                 osg.drawImage(ImageManipulator.scaleImage(
                         ImageManipulator.selectFromSheet(
@@ -86,7 +86,13 @@ class Building {
             }
         }
         location.y = 590 - size * outsidechunks[0].length - (size - 28);
-        osg.setColor(Color.black);
-        osg.drawRect(0, 0, outsideSprite.getWidth(), outsideSprite.getHeight());
+        for (BuildingObject bos : bo) {
+            isg.drawImage(bos.sprite, bos.location.x, bos.location.y, null);
+            bos.boundingBox.translate(location.x + bos.location.x, location.y + bos.location.y);
+        }
+    }
+
+    public ArrayList<BuildingObject> getObjects() {
+        return objects;
     }
 }
