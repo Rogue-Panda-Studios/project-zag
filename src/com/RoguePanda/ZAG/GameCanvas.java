@@ -7,6 +7,7 @@ package com.RoguePanda.ZAG;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.Rectangle2D;
@@ -33,15 +34,22 @@ public class GameCanvas extends JPanel {
         bo = new BuildingObject(0, new Point(400, 320));
         BuildingObject[] bos = new BuildingObject[1];
         bos[0] = bo;
-        int[][] chunks = new int[4][4];
-        for (int x = 0; x < 4; x++) {
-            for (int y = 0; y < 4; y++) {
+        int[][] chunks = new int[3][3];
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
                 chunks[x][y] = 0;
             }
         }
+        int[][] chunks2 = new int[3][3];
+        for (int x = 0; x < 3; x++) {
+            for (int y = 0; y < 3; y++) {
+                chunks2[x][y] = 16;
+            }
+        }
+        chunks[0][1] = 1;
         chunks[2][1] = 1;
-        chunks[1][3] = 2;
-        b = new Building(chunks, bos, new Point(500, 0), cgui.currentGame.currentLevel);
+        chunks[1][2] = 2;
+        b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
         cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
         this.setBounds(0, 0, 1600, 600);
@@ -79,7 +87,15 @@ public class GameCanvas extends JPanel {
             g.drawImage(cgui.test, 0, 100, null);
             try {
                 for (Building b : cgui.currentGame.currentLevel.buildings) {
-                    g.drawImage(b.outsideSprite, b.location.x, b.location.y, null);
+                    g.drawImage(b.insideSprite, b.location.x, b.location.y, null);
+                    if (!b.inside) {
+                        g.drawImage(b.outsideSprite, b.location.x, b.location.y, null);
+                    } else {
+                        g.drawImage(b.outsideSpriteClear, b.location.x, b.location.y, null);
+                    }
+                    for (Rectangle r : b.entrances) {
+                        g.drawRect(r.x, r.y, r.width, r.height);
+                    }
                 }
             } catch (Exception be) {
             }
@@ -111,11 +127,6 @@ public class GameCanvas extends JPanel {
                         }
                     }
                 } catch (Exception bu) {
-                }
-                try {
-                    g.drawRect(b.location.x, b.location.y, b.outsideSprite.getWidth(), b.outsideSprite.getHeight());
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
                 g.setColor(Color.black);
                 g.fillRect(0, 400, 100, 100);

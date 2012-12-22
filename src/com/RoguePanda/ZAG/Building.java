@@ -1,9 +1,13 @@
 package com.RoguePanda.ZAG;
 
 import com.RoguePanda.Library.ImageManipulator;
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.List;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 /**
  * This is a building to be placed on screen.
@@ -16,21 +20,30 @@ class Building {
     Point location;
     BufferedImage insideSprite;
     BufferedImage outsideSprite;
+    BufferedImage outsideSpriteClear;
     BuildingObject[] objects;
     Block level;
+    public ArrayList<Rectangle> entrances;
+    boolean inside = false;
 
-    Building(int[][] chunks, BuildingObject[] bo, Point loc, Block lev) {
+    Building(int[][] outsidechunks, int[][] insidechunks, BuildingObject[] bo, Point loc, Block lev) {
+        entrances = new ArrayList<>();
         objects = bo;
         level = lev;
         location = loc;
-        outsideSprite = new BufferedImage(size * chunks[0].length, size * chunks.length, BufferedImage.TYPE_INT_ARGB);
+        outsideSprite = new BufferedImage(size * outsidechunks.length, size * outsidechunks[0].length, BufferedImage.TYPE_INT_ARGB);
+        outsideSpriteClear = new BufferedImage(size * outsidechunks.length, size * outsidechunks[0].length, BufferedImage.TYPE_INT_ARGB);
+        insideSprite = new BufferedImage(size * insidechunks.length, size * insidechunks[0].length, BufferedImage.TYPE_INT_ARGB);
         Graphics osg = outsideSprite.getGraphics();
-        for (int x = 0; x < chunks[0].length; x++) {
-            for (int y = 0; y < chunks.length; y++) {
+        for (int x = 0; x < outsidechunks.length; x++) {
+            for (int y = 0; y < outsidechunks[0].length; y++) {
+                if (outsidechunks[x][y] == 2) {
+                    entrances.add(new Rectangle(size * x + loc.x, size * y + loc.y + (size ), size, size));
+                }
                 osg.drawImage(ImageManipulator.scaleImage(
                         ImageManipulator.selectFromSheet(
                         level.buildingsheet,
-                        chunks[x][y],
+                        outsidechunks[x][y],
                         128,
                         128),
                         size,
@@ -40,6 +53,40 @@ class Building {
                         null);
             }
         }
-        location.y = 590 - size*chunks.length-(size-28);
+        Graphics osgc = outsideSpriteClear.getGraphics();
+        for (int x = 0; x < outsidechunks.length; x++) {
+            for (int y = 0; y < outsidechunks[0].length; y++) {
+                osgc.drawImage(ImageManipulator.scaleImage(
+                        ImageManipulator.selectFromSheet(
+                        level.buildingsheet,
+                        outsidechunks[x][y] + 8,
+                        128,
+                        128),
+                        size,
+                        size),
+                        size * x,
+                        size * y,
+                        null);
+            }
+        }
+        Graphics isg = insideSprite.getGraphics();
+        for (int x = 0; x < insidechunks.length; x++) {
+            for (int y = 0; y < insidechunks[0].length; y++) {
+                isg.drawImage(ImageManipulator.scaleImage(
+                        ImageManipulator.selectFromSheet(
+                        level.buildingsheet,
+                        insidechunks[x][y],
+                        128,
+                        128),
+                        size,
+                        size),
+                        size * x,
+                        size * y,
+                        null);
+            }
+        }
+        location.y = 590 - size * outsidechunks[0].length - (size - 28);
+        osg.setColor(Color.black);
+        osg.drawRect(0, 0, outsideSprite.getWidth(), outsideSprite.getHeight());
     }
 }

@@ -14,6 +14,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -32,7 +33,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
@@ -46,7 +46,7 @@ class CardGUI extends JFrame implements Runnable {
 
     private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Create Variables">
-    int leftKey, rightKey, jumpKey, dropKey;
+    int leftKey, rightKey, jumpKey, dropKey, enterKey;
     BufferedImage bim;
     Graphics blank;
     ImageIcon bgicon, bgimage, logo;
@@ -114,6 +114,7 @@ class CardGUI extends JFrame implements Runnable {
         rightKey = 'd';
         jumpKey = ' ';
         dropKey = 'q';
+        enterKey = 'w';
         frame = new JPanel();
         frame.setLayout(new CardLayout());
         menuDisplay = new JPanel();
@@ -462,6 +463,20 @@ class CardGUI extends JFrame implements Runnable {
             @Override
             public void keyPressed(KeyEvent ke) {
                 pressed.add((int) ke.getKeyChar());
+                if (ke.getKeyCode() == 116) {
+                    for (Building b : currentGame.currentLevel.buildings) {
+                        for (Rectangle r : b.entrances) {
+                            if (currentGame.player.boundingBox.intersects(r)) {
+                                if (b.inside) {
+                                    b.inside = false;
+                                } else {
+                                    b.inside = true;
+                                }
+                                System.out.println("Building");
+                            }
+                        }
+                    }
+                }
                 if (ke.getKeyCode() == 113) {
                     if (debug) {
                         debug = false;
