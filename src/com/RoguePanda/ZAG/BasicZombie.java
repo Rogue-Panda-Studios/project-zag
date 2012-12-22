@@ -43,7 +43,7 @@ public class BasicZombie extends Entity {
         if (rand > .5) {
             tasks.add(new AIWander(this, 1));
         } else {
-            tasks.add(new AIWander(this, .25));
+            tasks.add(new AIWander(this, .5));
         }
         tasks.add(new AIDeathAnimation(this));
     }

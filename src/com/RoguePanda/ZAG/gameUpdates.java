@@ -214,16 +214,16 @@ public class gameUpdates implements Runnable {
         double npx = player.velocity.getX(), npy = player.velocity.getY();
         for (Entity en : gui.currentGame.currentLevel.entities) {
             if (en.clippable && player.boundingBox.intersects(en.boundingBox)) {
-                if (en.boundingBox.getCenterX() > player.boundingBox.getCenterX()) {
+                if (en.boundingBox.getCenterX() >= player.boundingBox.getCenterX()) {
                     if (player.velocity.getX() > 0) {
                         npx = 0;
                     }
-                } else if (en.boundingBox.getCenterX() < player.boundingBox.getCenterX()) {
+                } else if (en.boundingBox.getCenterX() <= player.boundingBox.getCenterX()) {
                     if (player.velocity.getX() < 0) {
                         npx = 0;
                     }
                 }
-                if (en.boundingBox.getCenterY() > player.boundingBox.getCenterY()) {
+                if (en.boundingBox.getMinY() >= player.boundingBox.getMaxY()) {
                     if (player.velocity.getY() > 0) {
                         npy = 0;
                         player.falling = false;
@@ -238,16 +238,16 @@ public class gameUpdates implements Runnable {
             for (Entity en : gui.currentGame.currentLevel.entities) {
                 double nex = e.velocity.getX(), ney = e.velocity.getY();
                 if (en.clippable && e.boundingBox.intersects(en.boundingBox)) {
-                    if (en.boundingBox.getCenterX() > e.boundingBox.getCenterX()) {
+                    if (en.boundingBox.getCenterX() >= e.boundingBox.getCenterX()) {
                         if (e.velocity.getX() > 0) {
                             nex = 0;
                         }
-                    } else if (en.boundingBox.getCenterX() < e.boundingBox.getCenterX()) {
+                    } else if (en.boundingBox.getCenterX() <= e.boundingBox.getCenterX()) {
                         if (e.velocity.getX() < 0) {
                             nex = 0;
                         }
                     }
-                    if (en.boundingBox.getCenterY() > e.boundingBox.getCenterY()) {
+                    if (en.boundingBox.getCenterY() >= e.boundingBox.getCenterY()) {
                         if (e.velocity.getY() > 0) {
                             ney = 0;
                             e.falling = false;

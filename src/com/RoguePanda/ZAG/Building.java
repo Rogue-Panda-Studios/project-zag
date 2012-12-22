@@ -1,5 +1,7 @@
 package com.RoguePanda.ZAG;
 
+import com.RoguePanda.Library.ImageManipulator;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 
@@ -10,10 +12,32 @@ import java.awt.image.BufferedImage;
  */
 class Building {
 
+    final int size = 128;
     Point location;
     BufferedImage insideSprite;
     BufferedImage outsideSprite;
+    Block level;
 
-    Building(int[][] chunks, int sheet, BuildingObject[] bo, Point loc) {
+    Building(int[][] chunks, BuildingObject[] bo, Point loc, Block lev) {
+        level = lev;
+        location = loc;
+        outsideSprite = new BufferedImage(size * chunks[0].length, size * chunks.length, BufferedImage.TYPE_INT_ARGB);
+        Graphics osg = outsideSprite.getGraphics();
+        for (int x = 0; x < chunks[0].length; x++) {
+            for (int y = 0; y < chunks.length; y++) {
+                osg.drawImage(ImageManipulator.scaleImage(
+                        ImageManipulator.selectFromSheet(
+                        level.buildingsheet,
+                        chunks[x][y],
+                        128,
+                        128),
+                        size,
+                        size),
+                        size * x,
+                        size * y,
+                        null);
+            }
+        }
+        location.y = 590 - size*chunks.length-(size-28);
     }
 }

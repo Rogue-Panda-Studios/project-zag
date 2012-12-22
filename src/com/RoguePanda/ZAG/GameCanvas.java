@@ -22,6 +22,7 @@ public class GameCanvas extends JPanel {
     private static final long serialVersionUID = 1L;
     CardGUI cgui;
     BuildingObject bo;
+    Building b;
 
     /**
      *
@@ -30,6 +31,15 @@ public class GameCanvas extends JPanel {
     GameCanvas(CardGUI aThis) {
         cgui = aThis;
         bo = new BuildingObject(0, new Point(400, 320));
+        int[][] chunks = new int[4][4];
+        for (int x = 0; x < 4; x++) {
+            for (int y = 0; y < 4; y++) {
+                chunks[x][y] = 0;
+            }
+        }
+        chunks[2][1] = 1;
+        b = new Building(chunks, null, new Point(500, 0), cgui.currentGame.currentLevel);
+        cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
         this.setBounds(0, 0, 1600, 600);
         this.addMouseListener(new MouseListener() {
@@ -63,13 +73,13 @@ public class GameCanvas extends JPanel {
             //Death Screen
         }
         try {
+            g.drawImage(cgui.test, 0, 100, null);
             try {
                 for (Building b : cgui.currentGame.currentLevel.buildings) {
                     g.drawImage(b.outsideSprite, b.location.x, b.location.y, null);
                 }
             } catch (Exception be) {
             }
-            g.drawImage(cgui.test, 0, 100, null);
             if (cgui.currentGame.player.dead) {
                 g.setFont(new java.awt.Font("Tahoma", 0, 36));
                 g.drawString("GAME OVER", 325, 300);
@@ -98,6 +108,11 @@ public class GameCanvas extends JPanel {
                         }
                     }
                 } catch (Exception bu) {
+                }
+                try {
+                    g.drawRect(b.location.x, b.location.y, b.outsideSprite.getWidth(), b.outsideSprite.getHeight());
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 g.setColor(Color.black);
                 g.fillRect(0, 400, 100, 100);
