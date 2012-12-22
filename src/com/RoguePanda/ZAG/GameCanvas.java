@@ -31,6 +31,8 @@ public class GameCanvas extends JPanel {
     GameCanvas(CardGUI aThis) {
         cgui = aThis;
         bo = new BuildingObject(0, new Point(400, 320));
+        BuildingObject[] bos = new BuildingObject[1];
+        bos[0] = bo;
         int[][] chunks = new int[4][4];
         for (int x = 0; x < 4; x++) {
             for (int y = 0; y < 4; y++) {
@@ -38,7 +40,8 @@ public class GameCanvas extends JPanel {
             }
         }
         chunks[2][1] = 1;
-        b = new Building(chunks, null, new Point(500, 0), cgui.currentGame.currentLevel);
+        chunks[1][3] = 2;
+        b = new Building(chunks, bos, new Point(500, 0), cgui.currentGame.currentLevel);
         cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
         this.setBounds(0, 0, 1600, 600);

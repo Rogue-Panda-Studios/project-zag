@@ -16,9 +16,11 @@ class Building {
     Point location;
     BufferedImage insideSprite;
     BufferedImage outsideSprite;
+    BuildingObject[] objects;
     Block level;
 
     Building(int[][] chunks, BuildingObject[] bo, Point loc, Block lev) {
+        objects = bo;
         level = lev;
         location = loc;
         outsideSprite = new BufferedImage(size * chunks[0].length, size * chunks.length, BufferedImage.TYPE_INT_ARGB);
