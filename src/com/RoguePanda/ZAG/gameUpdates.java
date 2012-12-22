@@ -131,7 +131,7 @@ public class gameUpdates implements Runnable {
     private void motionUpdates() {
         Game currentGame = gui.currentGame;
         if (!gui.paused) {
-            if (!currentGame.player.falling && !currentGame.player.dead) {
+            if (/*!currentGame.player.falling &&*/!currentGame.player.dead) {
                 if (gui.pressed.contains(gui.rightKey)) {
                     if (currentGame.player.velocity.getX() > 2) {
                     } else {
@@ -144,11 +144,12 @@ public class gameUpdates implements Runnable {
                         currentGame.player.velocity.setLocation(currentGame.player.velocity.getX() - 1, currentGame.player.velocity.getY());
                     }
                 }
-                if (gui.pressed.contains(gui.jumpKey)) {
-                    currentGame.player.velocity.setLocation(currentGame.player.velocity.getX(), -3);
-                    currentGame.player.falling = true;
+                if (!player.falling) {
+                    if (gui.pressed.contains(gui.jumpKey)) {
+                        currentGame.player.velocity.setLocation(currentGame.player.velocity.getX(), -3);
+                        currentGame.player.falling = true;
+                    }
                 }
-
             }
         }
         for (Entity e : gui.currentGame.currentLevel.entities) {
@@ -222,6 +223,12 @@ public class gameUpdates implements Runnable {
                         npx = 0;
                     }
                 }
+                if (en.boundingBox.getCenterY() > player.boundingBox.getCenterY()) {
+                    if (player.velocity.getY() > 0) {
+                        npy = 0;
+                        player.falling = false;
+                    }
+                }
             }
         }
         player.velocity = new Point2D.Double(npx, npy);
@@ -229,9 +236,25 @@ public class gameUpdates implements Runnable {
         player.boundingBox.y += player.velocity.getY();
         for (Entity e : gui.currentGame.currentLevel.entities) {
             for (Entity en : gui.currentGame.currentLevel.entities) {
+                double nex = e.velocity.getX(), ney = e.velocity.getY();
                 if (en.clippable && e.boundingBox.intersects(en.boundingBox)) {
-                    e.velocity = new Point(0, 0);
+                    if (en.boundingBox.getCenterX() > e.boundingBox.getCenterX()) {
+                        if (e.velocity.getX() > 0) {
+                            nex = 0;
+                        }
+                    } else if (en.boundingBox.getCenterX() < e.boundingBox.getCenterX()) {
+                        if (e.velocity.getX() < 0) {
+                            nex = 0;
+                        }
+                    }
+                    if (en.boundingBox.getCenterY() > e.boundingBox.getCenterY()) {
+                        if (e.velocity.getY() > 0) {
+                            ney = 0;
+                            e.falling = false;
+                        }
+                    }
                 }
+                e.velocity = new Point2D.Double(nex, ney);
             }
             e.boundingBox.x += e.velocity.getX();
             e.boundingBox.y += e.velocity.getY();
