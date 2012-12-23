@@ -14,12 +14,12 @@ CODE:
     Fix Pause Menu not centering
 -   Death Menu
     Credits Menu
-    Building generation < Needs building art first
+-   Building generation < Needs building art first
     Fix Key Remapping
     Select sprites from multiple sheets < Needs multiple sprite sheets first
     Charactor sprite construction < Needs charactor sprite first
     Inventory Management and Display < Needs GUI first
-    Ability to stand on dead bodies and objects
+-   Ability to stand on dead bodies and objects
 -   Hue and Lightness adjustments for zombie shirts
     Lag Reduction
     Optimize
@@ -37,9 +37,9 @@ ART:
     Charactor
         Seperate sprite sheets for head arms body and legs
     Charactor Animation
-    Objects
-        TV
-    Buildings
+-   Objects
+-       TV
+-   Buildings
 
 GUI:
     Inventory

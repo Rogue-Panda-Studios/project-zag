@@ -34,11 +34,6 @@ public class GameCanvas extends JPanel {
     GameCanvas(CardGUI aThis) {
         cgui = aThis;
         bo = new BuildingObject(0, new Point(400, 0), b);
-        z = new BasicZombie(
-                "BasicZombie" + cgui.currentGame.currentLevel.entities.size(),
-                15,
-                new Point(500, 0),
-                cgui.currentGame.currentLevel);
         ArrayList<BuildingObject> bos = new ArrayList<>();
         bos.add(bo);
         int[][] chunks = new int[3][3];
@@ -55,8 +50,13 @@ public class GameCanvas extends JPanel {
         }
         chunks[1][1] = 1;
         chunks[0][2] = 2;
-        chunks[2][2] = 3;
+        chunks[2][2] = 4;
         b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
+        z = new BasicZombie(
+                "BasicZombie" + cgui.currentGame.currentLevel.entities.size(),
+                15,
+                new Point(b.location),
+                cgui.currentGame.currentLevel);
         z.inside = b;
         cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
@@ -88,6 +88,7 @@ public class GameCanvas extends JPanel {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+        Rectangle2D r;
         if (cgui.currentGame.player.dead) {
             //Death Screen
         }
@@ -101,18 +102,39 @@ public class GameCanvas extends JPanel {
                             g.drawPolygon(bos.boundingBox);
                         }
                     }
+
+                }
+            } catch (Exception be) {
+            }
+            try {
+                for (Entity e : cgui.currentGame.currentLevel.entities) {
+                    if (e.inside != null) {
+                        r = e.boundingBox;
+                        g.drawImage(e.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
+                        if (cgui.debug) {
+                            g.setColor(Color.green);
+                            g.drawRect((int) r.getMinX(), (int) r.getMinY(), (int) r.getWidth(), (int) r.getHeight());
+                            g.setColor(Color.red);
+                            g.drawRect((int) e.location.getX() - 1, (int) e.location.getY() - 1, 3, 3);
+                        }
+                    }
+                }
+            } catch (Exception bu) {
+            }
+            try {
+                for (Building b : cgui.currentGame.currentLevel.buildings) {
                     if (!b.inside) {
                         g.drawImage(b.outsideSprite, b.location.x, b.location.y, null);
                     } else {
                         g.drawImage(b.outsideSpriteClear, b.location.x, b.location.y, null);
                     }
                     if (cgui.debug) {
-                        for (Rectangle r : b.entrances) {
-                            g.drawRect(r.x, r.y, r.width, r.height);
+                        for (Rectangle re : b.entrances) {
+                            g.drawRect(re.x, re.y, re.width, re.height);
                         }
                     }
                 }
-            } catch (Exception be) {
+            } catch (Exception ex) {
             }
             if (cgui.currentGame.player.dead) {
                 g.setFont(new java.awt.Font("Tahoma", 0, 36));
@@ -124,7 +146,7 @@ public class GameCanvas extends JPanel {
             } else {
                 g.setColor(Color.black);
                 g.fillRect(100, 400, 100, 100);
-                Rectangle2D r = cgui.currentGame.player.boundingBox;
+                r = cgui.currentGame.player.boundingBox;
                 g.drawImage(cgui.currentGame.player.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
                 if (cgui.debug) {
                     g.setColor(Color.green);
@@ -132,7 +154,7 @@ public class GameCanvas extends JPanel {
                 }
                 try {
                     for (Entity e : cgui.currentGame.currentLevel.entities) {
-                        if (e.inside == cgui.currentGame.player.inside) {
+                        if (e.inside == null && cgui.currentGame.player.inside == null) {
                             r = e.boundingBox;
                             g.drawImage(e.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
                             if (cgui.debug) {

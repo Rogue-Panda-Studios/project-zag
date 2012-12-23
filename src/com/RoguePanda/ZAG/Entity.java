@@ -108,6 +108,7 @@ public abstract class Entity {
             location = l;
             boundingBox = new BoundBox(l.getX(), l.getY(), 0, 0);
             inside = null;
+            System.out.println(name + " created in " + inside);
         } catch (Exception ex) {
             Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -39,6 +39,9 @@ class Building {
             for (int y = 0; y < outsidechunks[0].length; y++) {
                 if (outsidechunks[x][y] == 2 || outsidechunks[x][y] == 3) {
                     entrances.add(new Rectangle(size * x + loc.x + 46, size * y + loc.y + size + 34, size - 46 * 2, size - 56));
+                }if(outsidechunks[x][y] == 4){
+
+                    entrances.add(new Rectangle(size * x + loc.x + 23, size * y + loc.y + size + 6, size - 46, size - 44));
                 }
                 osg.drawImage(ImageManipulator.scaleImage(
                         ImageManipulator.selectFromSheet(
