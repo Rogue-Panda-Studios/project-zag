@@ -55,7 +55,7 @@ public class GameCanvas extends JPanel {
         }
         chunks[1][1] = 1;
         chunks[0][2] = 2;
-        chunks[2][2] = 2;
+        chunks[2][2] = 3;
         b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
         z.inside = b;
         cgui.currentGame.currentLevel.buildings.add(b);

@@ -37,8 +37,8 @@ class Building {
         Graphics osg = outsideSprite.getGraphics();
         for (int x = 0; x < outsidechunks.length; x++) {
             for (int y = 0; y < outsidechunks[0].length; y++) {
-                if (outsidechunks[x][y] == 2) {
-                    entrances.add(new Rectangle(size * x + loc.x, size * y + loc.y + size, size, size));
+                if (outsidechunks[x][y] == 2 || outsidechunks[x][y] == 3) {
+                    entrances.add(new Rectangle(size * x + loc.x + 46, size * y + loc.y + size + 34, size - 46 * 2, size - 56));
                 }
                 osg.drawImage(ImageManipulator.scaleImage(
                         ImageManipulator.selectFromSheet(
