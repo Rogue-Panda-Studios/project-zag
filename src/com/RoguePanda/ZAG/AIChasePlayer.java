@@ -45,6 +45,13 @@ public class AIChasePlayer extends AI {
     public boolean execute() {
         boolean ret = true;
         if (!entity.dead && !entity.falling && entity.inside == entity.level.game.player.inside && entity.location.distance(entity.level.game.player.location) < range && !entity.level.game.player.dead) {
+            if (entity.inside != null) {
+                for (BuildingObject bo : entity.inside.getObjects()) {
+                    if (bo.boundingBox.intersects(entity.boundingBox)) {
+                        entity.velocity.setLocation(entity.velocity.getX(), - 1);
+                    }
+                }
+            }
             int wid = (entity.level.game.player.sprite.getWidth() / 2 + entity.sprite.getWidth() / 2) + distance;
             if (entity.location.getX() < (entity.level.game.player.location.getX() - wid)) {
                 entity.direction = 1;

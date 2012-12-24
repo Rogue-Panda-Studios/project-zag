@@ -35,6 +35,13 @@ public class AIWander extends AI {
     public boolean execute() {
         boolean ret = true;
         if (!entity.dead && !entity.falling) {
+            if (entity.inside != null && entity.direction != 0) {
+                for (BuildingObject bo : entity.inside.getObjects()) {
+                    if (bo.boundingBox.intersects(entity.boundingBox)) {
+                        entity.velocity.setLocation(entity.velocity.getX(), - 1);
+                    }
+                }
+            }
             if (waiter > 150) {
                 waiter = 0;
                 entity.direction = (int) (Math.random() * 3) - 1;

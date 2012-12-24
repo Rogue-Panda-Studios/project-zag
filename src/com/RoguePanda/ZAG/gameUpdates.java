@@ -251,7 +251,7 @@ public class gameUpdates implements Runnable {
                         }
                     } else if (player.boundingBox.getCenterX() < bo.boundingBox.getBounds().getCenterX()) {
                         if (npx > 0) {
-                           // npx = 0;
+                            // npx = 0;
                         }
                     }
                     if (player.boundingBox.getCenterY() <= bo.boundingBox.getBounds().getMaxY()) {
@@ -274,12 +274,38 @@ public class gameUpdates implements Runnable {
         for (Entity e : gui.currentGame.currentLevel.entities) {
             double nex = e.velocity.getX(), ney = e.velocity.getY();
             if (e.inside != null) {
-                if (e.boundingBox.getMinX() >= e.inside.location.x) {
-                    e.location.setLocation(e.location.getX() + 2, e.location.getY());
+                if (e.boundingBox.getMinX() <= e.inside.location.x) {
+                    if (nex < 0) {
+                        nex = 0;
+                    }
                 }
                 if (e.inside.location.x + e.inside.insideSprite.getWidth() <= e.boundingBox.getMaxX()) {
                     if (nex > 0) {
                         nex = 0;
+                    }
+                }
+                for (BuildingObject bo : e.inside.getObjects()) {
+                    if (bo.boundingBox.intersects(e.boundingBox)) {
+                        if (e.boundingBox.getCenterX() > bo.boundingBox.getBounds().getCenterX()) {
+                            if (nex < 0) {
+                                nex = 0;
+                            }
+                        } else if (e.boundingBox.getCenterX() < bo.boundingBox.getBounds().getCenterX()) {
+                            if (nex > 0) {
+                                // nex = 0;
+                            }
+                        }
+                        if (e.boundingBox.getCenterY() <= bo.boundingBox.getBounds().getMaxY()) {
+                            if (ney > 0) {
+                                ney = 0;
+                                e.falling = false;
+                            }
+                        } else {
+                            if (ney < 0) {
+                                ney = 0;
+                                e.falling = false;
+                            }
+                        }
                     }
                 }
             }

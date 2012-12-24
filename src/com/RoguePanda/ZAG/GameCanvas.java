@@ -55,8 +55,8 @@ public class GameCanvas extends JPanel {
             }
         }
         chunks[1][1] = 1;
-        chunks[0][2] = 2;
-        chunks[2][2] = 4;
+        chunks[0][1] = 4;
+        chunks[2][2] = 2;
         b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
         z = new BasicZombie(
                 "BasicZombie" + cgui.currentGame.currentLevel.entities.size(),
