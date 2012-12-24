@@ -24,6 +24,8 @@ public class GameCanvas extends JPanel {
     private static final long serialVersionUID = 1L;
     CardGUI cgui;
     BuildingObject bo;
+    BuildingObject bo2;
+    BuildingObject bo3;
     Building b;
     BasicZombie z;
 
@@ -33,9 +35,13 @@ public class GameCanvas extends JPanel {
      */
     GameCanvas(CardGUI aThis) {
         cgui = aThis;
-        bo = new BuildingObject(0, new Point(400, 0), b);
+        bo = new BuildingObject(0, new Point(128, 320));
+        bo2 = new BuildingObject(0, new Point(64, 256));
+        bo3 = new BuildingObject(0, new Point(0, 192));
         ArrayList<BuildingObject> bos = new ArrayList<>();
         bos.add(bo);
+        bos.add(bo2);
+        bos.add(bo3);
         int[][] chunks = new int[3][3];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
@@ -153,15 +159,17 @@ public class GameCanvas extends JPanel {
                     g.drawRect((int) r.getMinX(), (int) r.getMinY(), (int) r.getWidth(), (int) r.getHeight());
                 }
                 try {
-                    for (Entity e : cgui.currentGame.currentLevel.entities) {
-                        if (e.inside == null && cgui.currentGame.player.inside == null) {
-                            r = e.boundingBox;
-                            g.drawImage(e.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
-                            if (cgui.debug) {
-                                g.setColor(Color.green);
-                                g.drawRect((int) r.getMinX(), (int) r.getMinY(), (int) r.getWidth(), (int) r.getHeight());
-                                g.setColor(Color.red);
-                                g.drawRect((int) e.location.getX() - 1, (int) e.location.getY() - 1, 3, 3);
+                    if (cgui.currentGame.player.inside == null) {
+                        for (Entity e : cgui.currentGame.currentLevel.entities) {
+                            if (e.inside == null) {
+                                r = e.boundingBox;
+                                g.drawImage(e.sprite, (int) r.getMinX(), (int) r.getMinY(), null);
+                                if (cgui.debug) {
+                                    g.setColor(Color.green);
+                                    g.drawRect((int) r.getMinX(), (int) r.getMinY(), (int) r.getWidth(), (int) r.getHeight());
+                                    g.setColor(Color.red);
+                                    g.drawRect((int) e.location.getX() - 1, (int) e.location.getY() - 1, 3, 3);
+                                }
                             }
                         }
                     }

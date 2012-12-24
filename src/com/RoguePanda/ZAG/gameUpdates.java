@@ -243,11 +243,34 @@ public class gameUpdates implements Runnable {
                     npx = 0;
                 }
             }
+            for (BuildingObject bo : player.inside.getObjects()) {
+                if (bo.boundingBox.intersects(player.boundingBox)) {
+                    if (player.boundingBox.getCenterX() > bo.boundingBox.getBounds().getCenterX()) {
+                        if (npx < 0) {
+                            npx = 0;
+                        }
+                    } else if (player.boundingBox.getCenterX() < bo.boundingBox.getBounds().getCenterX()) {
+                        if (npx > 0) {
+                           // npx = 0;
+                        }
+                    }
+                    if (player.boundingBox.getCenterY() <= bo.boundingBox.getBounds().getMaxY()) {
+                        if (npy > 0) {
+                            npy = 0;
+                            player.falling = false;
+                        }
+                    } else {
+                        if (npy < 0) {
+                            npy = 0;
+                            player.falling = false;
+                        }
+                    }
+                }
+            }
         }
         player.velocity = new Point2D.Double(npx, npy);
         player.boundingBox.x += player.velocity.getX();
         player.boundingBox.y += player.velocity.getY();
-
         for (Entity e : gui.currentGame.currentLevel.entities) {
             double nex = e.velocity.getX(), ney = e.velocity.getY();
             if (e.inside != null) {
