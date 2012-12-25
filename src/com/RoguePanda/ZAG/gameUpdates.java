@@ -215,7 +215,6 @@ public class gameUpdates implements Runnable {
     private void postMotionUpdates() {
         double npx = player.velocity.getX(), npy = player.velocity.getY();
         for (Entity en : gui.currentGame.currentLevel.entities) {
-
             if (en.clippable && player.inside == en.inside && player.boundingBox.intersects(en.boundingBox)) {
                 if (en.boundingBox.getCenterX() >= player.boundingBox.getCenterX()) {
                     if (player.velocity.getX() > 0) {
