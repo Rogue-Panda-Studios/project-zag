@@ -44,6 +44,7 @@ import org.netbeans.lib.awtextra.AbsoluteLayout;
  */
 class CardGUI extends JFrame implements Runnable {
 
+    CardGUI cardgui;
     private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Create Variables">
     int leftKey, rightKey, jumpKey, dropKey, enterKey;
@@ -68,6 +69,8 @@ class CardGUI extends JFrame implements Runnable {
     int hnum = 2;
     boolean paused = true;
     boolean debug = false;
+    boolean inventoryOpen = false;
+    InventoryGUI inventorygui;
     public final Set<Integer> pressed = new HashSet<>();
     //</editor-fold>
 
@@ -161,6 +164,8 @@ class CardGUI extends JFrame implements Runnable {
         htStats = new JPanel();
         GridBagConstraints c = new GridBagConstraints();
         GridBagConstraints d;
+        inventorygui = new InventoryGUI(this);
+        
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Layout Setup">
         menuCard.setLayout(new GridBagLayout());
@@ -373,6 +378,10 @@ class CardGUI extends JFrame implements Runnable {
     public void run() {
         setVisible(true);
     }
+    
+     public void reloadInventory() {
+        inventorygui = new InventoryGUI(this);
+    }
 
     private void colorChange(MouseEvent me, int i) {
         switch (i) {
@@ -531,6 +540,20 @@ class CardGUI extends JFrame implements Runnable {
                     }
                     gameCanvas.repaint();
                 }
+                
+                if (ke.getKeyChar() == 'e') {
+                    if (!inventoryOpen) {
+                        if(currentGame.player.getInventorySize() != inventorygui.inventorySize){
+                            reloadInventory();
+                        }
+                        gameCard.add(inventorygui, new AbsoluteConstraints(0, 0, -1, -1), 0);
+                        inventoryOpen = true;
+                    } else {
+                        gameCard.remove(inventorygui);
+                        inventoryOpen = false;
+                    }
+                }
+                
             }
 
             @Override
