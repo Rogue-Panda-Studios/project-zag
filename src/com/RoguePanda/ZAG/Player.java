@@ -21,6 +21,7 @@ public class Player extends Entity {
     public double thirst;
     private double regerateRate;
     private int infectionStatus;
+    public int score = 0;
     private BufferedImage hatsSheet;
     private BufferedImage headSheet;
     private BufferedImage armsSheet;
@@ -61,5 +62,11 @@ public class Player extends Entity {
 
     public void setLevel(Game game) {
         level = game.currentLevel;
+    }
+
+    @Override
+    public void onDeath() {
+        super.onDeath();
+        System.out.println("Score: " + score);
     }
 }

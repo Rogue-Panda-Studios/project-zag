@@ -47,4 +47,10 @@ public class BasicZombie extends Entity {
         }
         tasks.add(new AIDeathAnimation(this));
     }
+
+    @Override
+    public void onDeath() {
+        super.onDeath();
+        level.game.player.score += 5;
+    }
 }

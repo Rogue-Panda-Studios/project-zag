@@ -89,6 +89,7 @@ public class gameUpdates implements Runnable {
     private void doGameUpdates(double delta) {
         motionUpdates();
         JScrollBar hzb = gui.gameDisplay.getHorizontalScrollBar();
+        JScrollBar vsb = gui.gameDisplay.getVerticalScrollBar();
         if (counter < subupdaterate) {
             counter++;
         } else {
@@ -113,6 +114,7 @@ public class gameUpdates implements Runnable {
         }
         postMotionUpdates();
         hzb.setValue((int) player.location.getX() - 375);
+        vsb.setValue((int) player.location.getY() - 400);
     }
 
     private void render() {
@@ -161,8 +163,8 @@ public class gameUpdates implements Runnable {
                 e.boundingBox.x = (gui.currentGame.currentLevel.size.width - e.boundingBox.width);
                 e.velocity.setLocation(0, e.velocity.getY());
             }
-            if (e.boundingBox.y > 490 - e.boundingBox.height) {
-                e.boundingBox.y = 490 - e.boundingBox.height;
+            if (e.boundingBox.y > (gui.currentGame.currentLevel.size.height - 110) - e.boundingBox.height) {
+                e.boundingBox.y = (gui.currentGame.currentLevel.size.height - 110) - e.boundingBox.height;
                 e.velocity.setLocation(e.velocity.getX(), 0);
                 e.falling = false;
             }
@@ -177,8 +179,8 @@ public class gameUpdates implements Runnable {
 
                 player.velocity.setLocation(0, player.velocity.getY());
             }
-            if (player.boundingBox.y > 490 - player.boundingBox.height) {
-                player.boundingBox.y = 490 - player.boundingBox.height;
+            if (player.boundingBox.y > (gui.currentGame.currentLevel.size.height - 110) - player.boundingBox.height) {
+                player.boundingBox.y = (gui.currentGame.currentLevel.size.height - 110) - player.boundingBox.height;
                 player.velocity.setLocation(player.velocity.getX(), 0);
                 player.falling = false;
             }

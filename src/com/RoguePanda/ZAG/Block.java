@@ -60,6 +60,6 @@ public class Block {
             Logger.getLogger(Block.class.getName()).log(Level.SEVERE, null, ex);
         }
         buildings = new ArrayList<>();
-        size = new Dimension(1600, 600);
+        size = new Dimension(1600, 1000);
     }
 }

@@ -101,7 +101,7 @@ class CardGUI extends JFrame implements Runnable {
             test = getToolkit().getImage(getClass().getResource("/com/RoguePanda/ZAG/Images/longtest.png")).getScaledInstance(1600, 390, Image.SCALE_FAST);
             logo = new ImageIcon(ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/logo.png")));
             menuBG = getToolkit().getImage(getClass().getResource("/com/RoguePanda/ZAG/Images/menubackground.png")).getScaledInstance(800, 600, Image.SCALE_FAST);
-            gameBG = getToolkit().getImage(getClass().getResource("/com/RoguePanda/ZAG/Images/gamebackground.png")).getScaledInstance(800, 600, Image.SCALE_FAST);
+            gameBG = getToolkit().getImage(getClass().getResource("/com/RoguePanda/ZAG/Images/gamebackground.png")).getScaledInstance(800, 540, Image.SCALE_FAST);
             optionsBG = getToolkit().getImage(getClass().getResource("/com/RoguePanda/ZAG/Images/optionsbackground.png")).getScaledInstance(800, 600, Image.SCALE_FAST);
         } catch (IOException ex) {
             Logger.getLogger(CardGUI.class.getName()).log(Level.SEVERE, null, ex);
@@ -360,7 +360,7 @@ class CardGUI extends JFrame implements Runnable {
         optionsCard.add(optionsBack, d);
         gameCard.add(gameHUD, new AbsoluteConstraints(0, 0, 800, 600));
         gameCard.add(gameDisplay, new AbsoluteConstraints(0, 0, 800, 600));
-        gameCard.add(gameBackDisplay, new AbsoluteConstraints(0, 0, 800, 600));
+        gameCard.add(gameBack, new AbsoluteConstraints(0, -35, 800, 600));
         frame.add(menuCard, "Menu");
         frame.add(gameCard, "Game");
         frame.add(optionsCard, "Options");

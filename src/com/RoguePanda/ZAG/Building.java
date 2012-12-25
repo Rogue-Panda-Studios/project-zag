@@ -31,6 +31,7 @@ class Building {
         objects = bo;
         level = lev;
         location = loc;
+        location.y = (level.size.height - 10) - size * outsidechunks[0].length - (size - 28);
         outsideSprite = new BufferedImage(size * outsidechunks.length, size * outsidechunks[0].length, BufferedImage.TYPE_INT_ARGB);
         outsideSpriteClear = new BufferedImage(size * outsidechunks.length, size * outsidechunks[0].length, BufferedImage.TYPE_INT_ARGB);
         insideSprite = new BufferedImage(size * insidechunks.length, size * insidechunks[0].length, BufferedImage.TYPE_INT_ARGB);
@@ -38,11 +39,10 @@ class Building {
         for (int x = 0; x < outsidechunks.length; x++) {
             for (int y = 0; y < outsidechunks[0].length; y++) {
                 if (outsidechunks[x][y] == 2 || outsidechunks[x][y] == 3) {
-                    entrances.add(new Rectangle(size * x + loc.x + 46, size * y + loc.y + size + 34, size - 46 * 2, size - 56));
+                    entrances.add(new Rectangle(size * x + location.x + 46, size * y + location.y + size / 2 - 8, size - 46 * 2, size - 56));
                 }
                 if (outsidechunks[x][y] == 4) {
-
-                    entrances.add(new Rectangle(size * x + loc.x + 23, size * y + loc.y + size + 6, size - 46, size - 44));
+                    entrances.add(new Rectangle(size * x + location.x + 23, size * y + location.y + size / 2 - 35, size - 46, size - 44));
                 }
                 osg.drawImage(ImageManipulator.scaleImage(
                         ImageManipulator.selectFromSheet(
@@ -92,7 +92,6 @@ class Building {
         for (BuildingObject buo : objects) {
             isg.drawImage(buo.sprite, buo.location.x, buo.location.y, null);
         }
-        location.y = 590 - size * outsidechunks[0].length - (size - 28);
         for (BuildingObject bos : bo) {
             isg.drawImage(bos.sprite, bos.location.x, bos.location.y, null);
             bos.boundingBox.translate(location.x + bos.location.x, location.y + bos.location.y);

@@ -99,7 +99,7 @@ public class GameCanvas extends JPanel {
             //Death Screen
         }
         try {
-            g.drawImage(cgui.test, 0, 100, null);
+            g.drawImage(cgui.test, 0, cgui.currentGame.currentLevel.size.height - 500, null);
             try {
                 for (Building b : cgui.currentGame.currentLevel.buildings) {
                     g.drawImage(b.insideSprite, b.location.x, b.location.y, null);
