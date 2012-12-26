@@ -27,6 +27,7 @@ class Building {
     boolean inside = false;
 
     Building(int[][] outsidechunks, int[][] insidechunks, ArrayList<BuildingObject> bo, Point loc, Block lev) {
+        BasicZombie z;
         entrances = new ArrayList<>();
         objects = bo;
         level = lev;
@@ -96,6 +97,13 @@ class Building {
             isg.drawImage(bos.sprite, bos.location.x, bos.location.y, null);
             bos.boundingBox.translate(location.x + bos.location.x, location.y + bos.location.y);
         }
+        z = new BasicZombie(
+                "BasicZombie" + level.entities.size(),
+                15,
+                new Point(location.x + 50, location.y),
+                level,
+                this);
+        level.entities.add(z);
     }
 
     public ArrayList<BuildingObject> getObjects() {

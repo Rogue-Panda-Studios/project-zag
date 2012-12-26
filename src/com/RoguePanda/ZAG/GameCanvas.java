@@ -27,8 +27,6 @@ public class GameCanvas extends JPanel {
     BuildingObject bo2;
     BuildingObject bo3;
     Building b;
-    BasicZombie z;
-
     /**
      *
      * @param aThis The gui that this is attached to
@@ -58,12 +56,6 @@ public class GameCanvas extends JPanel {
         chunks[0][1] = 4;
         chunks[2][2] = 2;
         b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
-        z = new BasicZombie(
-                "BasicZombie" + cgui.currentGame.currentLevel.entities.size(),
-                15,
-                new Point(b.location),
-                cgui.currentGame.currentLevel);
-        z.inside = b;
         cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
         this.setBounds(0, 0, 1600, 600);

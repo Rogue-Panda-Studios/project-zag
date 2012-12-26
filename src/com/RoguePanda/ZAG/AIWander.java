@@ -35,17 +35,17 @@ public class AIWander extends AI {
     public boolean execute() {
         boolean ret = true;
         if (!entity.dead && !entity.falling) {
-            if (entity.boundingBox.getMinX() <= entity.inside.location.x) {
-                if (entity.velocity.getX() < 0) {
-                    waiter = 151;
-                }
-            }
-            if (entity.inside.location.x + entity.inside.insideSprite.getWidth() <= entity.boundingBox.getMaxX()) {
-                if (entity.velocity.getX() > 0) {
-                    waiter = 151;
-                }
-            }
             if (entity.inside != null && entity.direction != 0) {
+                if (entity.boundingBox.getMinX() <= entity.inside.location.x) {
+                    if (entity.velocity.getX() < 0) {
+                        waiter = 151;
+                    }
+                }
+                if (entity.inside.location.x + entity.inside.insideSprite.getWidth() <= entity.boundingBox.getMaxX()) {
+                    if (entity.velocity.getX() > 0) {
+                        waiter = 151;
+                    }
+                }
                 for (BuildingObject bo : entity.inside.getObjects()) {
                     if (bo.boundingBox.intersects(entity.boundingBox)) {
                         entity.velocity.setLocation(entity.velocity.getX(), - 1);

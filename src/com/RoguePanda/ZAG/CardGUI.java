@@ -472,7 +472,7 @@ class CardGUI extends JFrame implements Runnable {
             @Override
             public void keyPressed(KeyEvent ke) {
                 pressed.add((int) ke.getKeyChar());
-                if (ke.getKeyCode() == 116) {
+                if (ke.getKeyChar() == enterKey) {
                     for (Building b : currentGame.currentLevel.buildings) {
                         for (Rectangle r : b.entrances) {
                             if (currentGame.player.boundingBox.intersects(r)) {
