@@ -49,6 +49,7 @@ public class Player extends Entity {
             isPlayer = true;
             tasks.add(new AIPlayer(this));
             monster = false;
+
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -71,13 +72,13 @@ public class Player extends Entity {
         super.onDeath();
         System.out.println("Score: " + score);
     }
-    
+
     public void setInventorySize(int size){
         inventorySpace = size;
     }
-    
+
     public int getInventorySize(){
         return inventorySpace;
     }
-    
+
 }

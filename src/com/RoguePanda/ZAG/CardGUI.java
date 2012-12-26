@@ -165,7 +165,7 @@ class CardGUI extends JFrame implements Runnable {
         GridBagConstraints c = new GridBagConstraints();
         GridBagConstraints d;
         inventorygui = new InventoryGUI(this);
-        
+
         //</editor-fold>
         //<editor-fold defaultstate="collapsed" desc="Layout Setup">
         menuCard.setLayout(new GridBagLayout());
@@ -378,7 +378,7 @@ class CardGUI extends JFrame implements Runnable {
     public void run() {
         setVisible(true);
     }
-    
+
      public void reloadInventory() {
         inventorygui = new InventoryGUI(this);
     }
@@ -540,7 +540,7 @@ class CardGUI extends JFrame implements Runnable {
                     }
                     gameCanvas.repaint();
                 }
-                
+
                 if (ke.getKeyChar() == 'e') {
                     if (!inventoryOpen) {
                         if(currentGame.player.getInventorySize() != inventorygui.inventorySize){
@@ -553,7 +553,7 @@ class CardGUI extends JFrame implements Runnable {
                         inventoryOpen = false;
                     }
                 }
-                
+
             }
 
             @Override

@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import org.netbeans.lib.awtextra.AbsoluteConstraints;
 import org.netbeans.lib.awtextra.AbsoluteLayout;
 
-
 public class InventoryGUI extends JPanel {
 
     JLabel[] slots;
@@ -40,12 +39,9 @@ public class InventoryGUI extends JPanel {
         this.setLayout(new AbsoluteLayout());
         slots = new JLabel[inventorySize];
         stackCount = new JLabel[inventorySize];
-        highLights = new JLabel[inventorySize];      
+        highLights = new JLabel[inventorySize];
         setBackground(new Color(0, 0, 0, 0));
         this.setSize(c.getWidth(), c.getHeight());
-       
-        
-        
         try {
             backGround = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/template.png"));
             nullItem = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/noWeapon.png"));
@@ -54,11 +50,7 @@ public class InventoryGUI extends JPanel {
         } catch (IOException ex) {
             Logger.getLogger(InventoryGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        
         //sprite = ImageManipulator.selectFromSheet(spriteSheet, id, 64, 64);
-
-
         int rowTemp = 0;
         int colTemp = 0;
         for (int i = 0; i < inventorySize; i++) {
@@ -66,7 +58,6 @@ public class InventoryGUI extends JPanel {
             Image img = nullItem;
             int itemID;
             int stackSize = 0;
-
             try {
                 item = inv.get(i).item;
                 itemID = item.getID();
@@ -82,7 +73,7 @@ public class InventoryGUI extends JPanel {
             } else {
                 slots[i] = new JLabel(new ImageIcon(img));
                 stackCount[i] = new JLabel();
-                stackCount[i].setText("<html><p><font color=#FF0000" + "size=\"7\" face=\"Verdana\">" + stackSize +"</font></p></html>");
+                stackCount[i].setText("<html><p><font color=#FF0000" + "size=\"7\" face=\"Verdana\">" + stackSize + "</font></p></html>");
                 //highLights[i] = new JLabel(new ImageIcon(highLight));
                 slots[i].setSize(new Dimension(64, 64));
                 stackCount[i].setSize(new Dimension(16, 16));
@@ -108,11 +99,8 @@ public class InventoryGUI extends JPanel {
         jLabel.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-
                 x = e.getX();
                 y = e.getY();
-
-
             }
 
             @Override
@@ -126,23 +114,25 @@ public class InventoryGUI extends JPanel {
             @Override
             public void mouseEntered(MouseEvent e) {
                 Inventory inv = cgui.currentGame.player.getItems();
-                if (inv.get(i).item.name.length() == 0) {
-                    return;
+                if (inv.get(i) != null) {
+                    if (inv.get(i).item.name.length() == 0) {
+                        return;
+                    }
+                    String html;
+                    try {
+                        html =
+                                "<html><p><font "
+                                + "size=\"5\" face=\"Verdana\">" + inv.get(i).item.name
+                                + "</font></p></html>";
+                    } catch (Exception ex) {
+                        html =
+                                "<html><p><font "
+                                + "size=\"5\" face=\"Verdana\">"
+                                + "</font></p></html>";
+                    }
+                    JLabel jl = (JLabel) e.getSource();
+                    jl.setToolTipText(html);
                 }
-                String html;
-                try {
-                    html =
-                            "<html><p><font "
-                            + "size=\"5\" face=\"Verdana\">" + inv.get(i).item.name
-                            + "</font></p></html>";
-                } catch (Exception ex) {
-                    html =
-                            "<html><p><font "
-                            + "size=\"5\" face=\"Verdana\">"
-                            + "</font></p></html>";
-                }
-                JLabel jl = (JLabel) e.getSource();
-                jl.setToolTipText(html);
             }
 
             @Override
@@ -152,7 +142,7 @@ public class InventoryGUI extends JPanel {
     }
 //    @Override
 //    public void paintComponent(Graphics g) {
-//        
+//
 //        ImageIcon imageicon = new ImageIcon(getClass().getResource("/com/RoguePanda/ZAG/Images/template.png"));
 //        Image image = imageicon.getImage();
 //        /*Draw image on the panel*/
