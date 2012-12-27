@@ -47,7 +47,7 @@ class CardGUI extends JFrame implements Runnable {
     CardGUI cardgui;
     private static final long serialVersionUID = 1L;
     //<editor-fold defaultstate="collapsed" desc="Create Variables">
-    int leftKey, rightKey, jumpKey, dropKey, enterKey;
+    int leftKey, rightKey, jumpKey, dropKey, enterKey, phazeKey, pauseKey, inventoryKey;
     BufferedImage bim;
     Graphics blank;
     ImageIcon bgicon, bgimage, logo;
@@ -118,6 +118,9 @@ class CardGUI extends JFrame implements Runnable {
         jumpKey = ' ';
         dropKey = 'q';
         enterKey = 'w';
+        phazeKey = 's';
+        pauseKey = 'p';
+        inventoryKey = 'e';
         frame = new JPanel();
         frame.setLayout(new CardLayout());
         menuDisplay = new JPanel();
@@ -537,7 +540,14 @@ class CardGUI extends JFrame implements Runnable {
                             currentGame.currentLevel,
                             0));
                 }
-                if (ke.getKeyChar() == 'p') {
+                if (ke.getKeyChar() == phazeKey) {
+                    if (currentGame.player.phazing) {
+                        currentGame.player.phazing = false;
+                    } else {
+                        currentGame.player.phazing = true;
+                    }
+                }
+                if (ke.getKeyChar() == pauseKey) {
                     if (paused) {
                         paused = false;
                         gameCard.remove(pauseMenu);
@@ -548,7 +558,7 @@ class CardGUI extends JFrame implements Runnable {
                     gameCanvas.repaint();
                 }
 
-                if (ke.getKeyChar() == 'e') {
+                if (ke.getKeyChar() == inventoryKey) {
                     if (!inventoryOpen) {
                         if (currentGame.player.getInventorySize() != inventorygui.inventorySize) {
                             reloadInventory();

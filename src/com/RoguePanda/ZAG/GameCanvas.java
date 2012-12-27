@@ -35,7 +35,7 @@ public class GameCanvas extends JPanel {
         cgui = aThis;
         bo = new BuildingObject(0, new Point(128, 320));
         bo2 = new BuildingObject(0, new Point(64, 256));
-        bo3 = new BuildingObject(0, new Point(0, 192));
+        bo3 = new BuildingObject(1, new Point(0, 192));
         ArrayList<BuildingObject> bos = new ArrayList<>();
         bos.add(bo);
         bos.add(bo2);

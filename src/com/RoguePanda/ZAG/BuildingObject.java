@@ -30,6 +30,12 @@ class BuildingObject {
                 phaze = true;
                 sprite = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
                 break;
+            case 1:
+                xpoints = new int[]{0, 8, 8, 16, 16, 24, 24, 32, 32, 40, 40, 48, 48, 56, 56, 64, 64, 0};
+                ypoints = new int[]{0, 0, 8, 8, 16, 16, 24, 24, 32, 32, 40, 40, 48, 48, 56, 56, 64, 64};
+                phaze = false;
+                sprite = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
+                break;
             default:
                 xpoints = new int[]{0, 1, 1, 0};
                 ypoints = new int[]{0, 0, 1, 1};
