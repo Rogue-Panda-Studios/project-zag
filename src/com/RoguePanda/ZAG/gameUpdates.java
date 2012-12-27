@@ -243,27 +243,25 @@ public class gameUpdates implements Runnable {
                 }
             }
             for (BuildingObject bo : player.inside.getObjects()) {
-                if (bo.phaze && player.phazing) {
+                if (bo.phazeBottom && bo.boundingBox.contains(new Point2D.Double(player.boundingBox.getCenterX(), player.boundingBox.getMaxY())) && player.phazing) {
+                    if (npy < 0) {
+                        npy = 0;
+                        player.falling = false;
+                    }
                 } else {
-                    if (bo.boundingBox.intersects(player.boundingBox)) {
-                        if (player.boundingBox.getCenterX() > bo.boundingBox.getBounds().getCenterX()) {
-                            if (npx < 0) {
-                                npx = 0;
+                    if (bo.phaze && player.phazing) {
+                    } else {
+                        if (bo.boundingBox.intersects(player.boundingBox)) {
+                            if (player.boundingBox.getCenterX() > bo.boundingBox.getBounds().getCenterX() && !bo.phazeBottom) {
+                                if (npx < 0) {
+                                    npx = 0;
+                                }
                             }
-                        } else if (player.boundingBox.getCenterX() < bo.boundingBox.getBounds().getCenterX()) {
-                            if (npx > 0) {
-                                // npx = 0;
-                            }
-                        }
-                        if (player.boundingBox.getCenterY() <= bo.boundingBox.getBounds().getMaxY()) {
-                            if (npy > 0) {
-                                npy = 0;
-                                player.falling = false;
-                            }
-                        } else {
-                            if (npy < 0) {
-                                npy = 0;
-                                player.falling = false;
+                            if (player.boundingBox.getMaxY() <= bo.boundingBox.getBounds().getMaxY()) {
+                                if (npy > 0) {
+                                    npy = 0;
+                                    player.falling = false;
+                                }
                             }
                         }
                     }
