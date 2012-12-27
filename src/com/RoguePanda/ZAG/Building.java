@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 class Building {
 
-    final int size = 128;
+    final int size = 128; //the size per chunk
     Point location;
     BufferedImage insideSprite;
     BufferedImage outsideSprite;
@@ -90,10 +90,7 @@ class Building {
                         null);
             }
         }
-        for (BuildingObject buo : objects) {
-            isg.drawImage(buo.sprite, buo.location.x, buo.location.y, null);
-        }
-        for (BuildingObject bos : bo) {
+        for (BuildingObject bos : objects) {
             isg.drawImage(bos.sprite, bos.location.x, bos.location.y, null);
             bos.boundingBox.translate(location.x + bos.location.x, location.y + bos.location.y);
         }

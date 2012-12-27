@@ -11,9 +11,7 @@ package com.RoguePanda.ZAG;
  */
 public class AIWander extends AI {
 
-    int counter = 0;
     int cycleNumber = 0;
-    int waiter = 0;
     int currentSprite = 0;
     /**
      * The speed for the Entity to move at
@@ -72,7 +70,7 @@ public class AIWander extends AI {
      * the sprite
      */
     private void walkCycle() {
-        if (counter < 5) {
+        if (counter < 5 * (1 / walkSpeed)) {
             counter++;
         } else {
             if (currentSprite >= entity.walkSprites.length - 1) {

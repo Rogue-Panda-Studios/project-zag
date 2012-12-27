@@ -46,7 +46,6 @@ public class Block {
      * The image that holds sprites for a simple flying zombee
      */
     BufferedImage zombee;
-
     /**
      *
      * @param aThis This is the GUI that the level is attached to
@@ -65,6 +64,6 @@ public class Block {
             Logger.getLogger(Block.class.getName()).log(Level.SEVERE, null, ex);
         }
         buildings = new ArrayList<>();
-        size = new Dimension(1600, 1000);
+        size = new Dimension(1600, 1600);
     }
 }

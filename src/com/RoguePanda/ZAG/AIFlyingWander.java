@@ -6,8 +6,6 @@ package com.RoguePanda.ZAG;
 
 public class AIFlyingWander extends AI {
 
-    int waiter = 0;
-    int counter = 0;
     int currentSprite = 0;
 
     public AIFlyingWander(Entity e) {

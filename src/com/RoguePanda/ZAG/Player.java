@@ -33,6 +33,10 @@ public class Player extends Entity {
     private int bodySprite;
     private int legsSprite;
     public int inventorySpace;
+    /**
+     * The Entities current Inventory
+     */
+    protected Inventory items;
 
     Player() {
         super("Player", 100, new Point(500, 420), null);
@@ -43,6 +47,7 @@ public class Player extends Entity {
             regerateRate = .007;
             infectionStatus = 0;
             inventorySpace = 6;
+            items = new Inventory();
             items.addItemStack(new ItemStack(0, 1));
             setSpriteSheet(ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/simpleplayer.png")));
             setSprite(ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/simpleplayer.png")));
@@ -73,12 +78,19 @@ public class Player extends Entity {
         System.out.println("Score: " + score);
     }
 
-    public void setInventorySize(int size){
+    public void setInventorySize(int size) {
         inventorySpace = size;
     }
 
-    public int getInventorySize(){
+    public int getInventorySize() {
         return inventorySpace;
     }
 
+    /**
+     *
+     * @return the entities items
+     */
+    public Inventory getItems() {
+        return items;
+    }
 }

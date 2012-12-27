@@ -15,7 +15,6 @@ import java.awt.geom.Point2D;
 public class AIShootProjectileAtPlayer extends AI {
 
     int attackSpeed;
-    int counter = 0;
     int distance;
     int damage;
     int projectileType;

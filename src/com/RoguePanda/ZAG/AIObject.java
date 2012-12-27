@@ -18,7 +18,6 @@ public class AIObject extends AI {
      * The Entity that owns this AI
      */
     GameObject go;
-    int counter;
 
     /**
      *

@@ -11,6 +11,8 @@ package com.RoguePanda.ZAG;
  */
 public abstract class AI {
 
+    int waiter = 0;
+    int counter = 0;
     /**
      * The entity that has this AI
      */
@@ -19,6 +21,7 @@ public abstract class AI {
     /**
      * The behavior to execute when this AI is running. Returns true if the
      * behavior is applicable to the current situation
+     *
      * @return true if the situation for the AI to occur is true
      */
     public abstract boolean execute();

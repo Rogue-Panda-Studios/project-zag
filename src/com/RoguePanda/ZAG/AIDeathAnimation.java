@@ -12,8 +12,6 @@ package com.RoguePanda.ZAG;
 public class AIDeathAnimation extends AI {
 
     int currentSprite = 0;
-    int counter = 0;
-    int waiter = 0;
 
     /**
      * This handles the death animation for the Entity

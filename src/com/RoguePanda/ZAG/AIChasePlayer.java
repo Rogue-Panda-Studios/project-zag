@@ -11,7 +11,6 @@ package com.RoguePanda.ZAG;
  */
 public class AIChasePlayer extends AI {
 
-    int counter = 0;
     int cycleNumber = 0;
     int currentSprite = 0;
     /**
@@ -78,7 +77,7 @@ public class AIChasePlayer extends AI {
      * the sprite
      */
     private void chaseCycle() {
-        if (counter < 3) {
+        if (counter < 5 * (1 / walkSpeed)) {
             counter++;
         } else {
             if (currentSprite >= entity.chaseSprites.length - 1) {

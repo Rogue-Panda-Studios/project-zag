@@ -14,7 +14,6 @@ import java.io.File;
  */
 public class AIAttackPlayerMelee extends AI {
 
-    int counter = 0;
     /**
      * The rate of attack, with higher numbers being slower
      */

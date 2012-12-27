@@ -67,10 +67,6 @@ public abstract class Entity {
      */
     protected boolean dead;
     /**
-     * The Entities current Inventory
-     */
-    protected Inventory items;
-    /**
      * The list of tasks for the Entity to execute
      */
     protected AITasks tasks;
@@ -99,7 +95,6 @@ public abstract class Entity {
             dead = false;
             name = n;
             actionState = 0;
-            items = new Inventory();
             level = le;
             spritenumber = 0;
             isPlayer = false;
@@ -127,7 +122,6 @@ public abstract class Entity {
             dead = false;
             name = n;
             actionState = 0;
-            items = new Inventory();
             level = le;
             spritenumber = 0;
             isPlayer = false;
@@ -174,12 +168,6 @@ public abstract class Entity {
      * Creates DroppedItems for each ItemStack in the Entities Inventory
      */
     public void dropItems() {
-        for (ItemStack item : items) {
-            DroppedItem d = new DroppedItem("Item", 100, new Point2D.Double(location.getX(), location.getY()), level, item);
-            d.velocity.setLocation((int) (Math.random() * 7) - 3, -((int) (Math.random() * 5) + 1));
-            d.inside = inside;
-            level.entities.add(d);
-        }
     }
 
     /**
@@ -247,13 +235,7 @@ public abstract class Entity {
         return location;
     }
 
-    /**
-     *
-     * @return the entities items
-     */
-    public Inventory getItems() {
-        return items;
-    }
+    
 
     /**
      * Sets the spriteSheet for the entity

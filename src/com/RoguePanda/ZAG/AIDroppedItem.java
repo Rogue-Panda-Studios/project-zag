@@ -12,7 +12,6 @@ package com.RoguePanda.ZAG;
  */
 public class AIDroppedItem extends AI {
 
-    int waiter = 0;
     DroppedItem di;
     int dropTimer = 30;
 
