@@ -9,8 +9,8 @@ CODE:
     Consumable Items
 -   Fire zombies shoot themselves when facing left
 -   Zombies do not stop when they are supposed to while chasing the player
-    Walk cycle glitches
-        Frames missing
+-   Walk cycle glitches
+-       Frames missing
     Fix Pause Menu not centering
 -   Death Menu
     Credits Menu

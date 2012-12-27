@@ -47,5 +47,6 @@ public class Projectile extends Entity {
         }
         monster = false;
         tasks.add(new AIProjectile(this));
+        canFall = false;
     }
 }

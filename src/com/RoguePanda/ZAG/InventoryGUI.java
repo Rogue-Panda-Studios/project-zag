@@ -80,8 +80,8 @@ public class InventoryGUI extends JPanel {
                 //highLights[i].setSize(new Dimension(64, 64));
                 addMouseListeners(slots[i], i, 0);
                 //addMouseListeners(highLights[i], i, 1);
-                this.add(slots[i], new AbsoluteConstraints(8 + 72 * rowTemp, 8 + 72 * colTemp, 64, 64));
                 this.add(stackCount[i], new AbsoluteConstraints(56 + 72 * rowTemp, 56 + 72 * colTemp));
+                this.add(slots[i], new AbsoluteConstraints(8 + 72 * rowTemp, 8 + 72 * colTemp, 64, 64));
                 //this.add(highLights[i], new AbsoluteConstraints(8 + 72 * rowTemp, 8 + 72 * colTemp, 64, 64));
             }
             rowTemp++;

@@ -85,7 +85,7 @@ public class AIChasePlayer extends AI {
                 currentSprite = 0;
             } else {
                 currentSprite++;
-                entity.spritenumber = entity.chaseSprites[currentSprite];
+                entity.spritenumber = entity.chaseSprites[currentSprite - 1];
             }
             counter = 0;
         }

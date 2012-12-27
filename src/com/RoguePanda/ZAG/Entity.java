@@ -82,6 +82,7 @@ public abstract class Entity {
      * A rectangle representing the Entity, used in collision detection
      */
     protected BoundBox boundingBox;
+    boolean canFall = true;
     boolean falling;
     boolean isPlayer;
     Point2D velocity;
@@ -113,7 +114,8 @@ public abstract class Entity {
             Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    Entity(String n, int h, Point2D l, Block le,Building b) {
+
+    Entity(String n, int h, Point2D l, Block le, Building b) {
         try {
             tasks = new AITasks(this);
             direction = 1;

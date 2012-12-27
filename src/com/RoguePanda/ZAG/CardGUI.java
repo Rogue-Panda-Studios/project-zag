@@ -379,7 +379,7 @@ class CardGUI extends JFrame implements Runnable {
         setVisible(true);
     }
 
-     public void reloadInventory() {
+    public void reloadInventory() {
         inventorygui = new InventoryGUI(this);
     }
 
@@ -504,15 +504,15 @@ class CardGUI extends JFrame implements Runnable {
                             currentGame.player.location.getY()),
                             currentGame.currentLevel,
                             new ItemStack(currentGame.player.items.get(0).item.getID())));
-                    //  currentGame.player.items.updateItemStack(1, -1);
+                    currentGame.player.items.updateItemStack(1, -1);
                 }
                 if (ke.getKeyCode() == 112) {
                     BasicZombie bz = new BasicZombie(
                             "BasicZombie" + currentGame.currentLevel.entities.size(),
                             15,
-                            new Point((int)currentGame.player.location.getX(),(int) currentGame.player.location.getY()-40),
+                            new Point((int) currentGame.player.location.getX(), (int) currentGame.player.location.getY() - 40),
                             currentGame.currentLevel);
-                    bz.inside=currentGame.player.inside;
+                    bz.inside = currentGame.player.inside;
                     currentGame.currentLevel.entities.add(bz);
                 }
                 if (ke.getKeyCode() == 115) {
@@ -520,6 +520,13 @@ class CardGUI extends JFrame implements Runnable {
                             "FireZombie" + currentGame.currentLevel.entities.size(),
                             15,
                             new Point(100, 100),
+                            currentGame.currentLevel));
+                }
+                if (ke.getKeyCode() == 116) {
+                    currentGame.currentLevel.entities.add(new ZomBee(
+                            "ZomBee" + currentGame.currentLevel.entities.size(),
+                            5,
+                            new Point(100, 700),
                             currentGame.currentLevel));
                 }
                 if (ke.getKeyCode() == 114) {
@@ -543,7 +550,7 @@ class CardGUI extends JFrame implements Runnable {
 
                 if (ke.getKeyChar() == 'e') {
                     if (!inventoryOpen) {
-                        if(currentGame.player.getInventorySize() != inventorygui.inventorySize){
+                        if (currentGame.player.getInventorySize() != inventorygui.inventorySize) {
                             reloadInventory();
                         }
                         gameCard.add(inventorygui, new AbsoluteConstraints(0, 0, -1, -1), 0);

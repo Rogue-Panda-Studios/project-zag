@@ -189,9 +189,7 @@ public class gameUpdates implements Runnable {
 
     private void slowMotionUpdates() {
         for (Entity e : gui.currentGame.currentLevel.entities) {
-            try {
-                Projectile p = (Projectile) e;
-            } catch (Exception ex) {
+            if (e.canFall) {
                 e.velocity.setLocation(e.velocity.getX(), e.velocity.getY() + 1);
                 if (!e.falling) {
                     if (e.velocity.getX() > 0) {

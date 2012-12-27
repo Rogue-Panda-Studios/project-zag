@@ -36,15 +36,11 @@ public class AIWander extends AI {
         boolean ret = true;
         if (!entity.dead && !entity.falling) {
             if (entity.inside != null && entity.direction != 0) {
-                if (entity.boundingBox.getMinX() <= entity.inside.location.x) {
-                    if (entity.velocity.getX() < 0) {
-                        waiter = 151;
-                    }
+                if (entity.boundingBox.getMinX() <= entity.inside.location.x && entity.velocity.getX() < 0) {
+                    waiter = 151;
                 }
-                if (entity.inside.location.x + entity.inside.insideSprite.getWidth() <= entity.boundingBox.getMaxX()) {
-                    if (entity.velocity.getX() > 0) {
-                        waiter = 151;
-                    }
+                if (entity.inside.location.x + entity.inside.insideSprite.getWidth() <= entity.boundingBox.getMaxX() && entity.velocity.getX() > 0) {
+                    waiter = 151;
                 }
                 for (BuildingObject bo : entity.inside.getObjects()) {
                     if (bo.boundingBox.intersects(entity.boundingBox)) {
@@ -83,7 +79,7 @@ public class AIWander extends AI {
                 currentSprite = 0;
             } else {
                 currentSprite++;
-                entity.spritenumber = entity.walkSprites[currentSprite];
+                entity.spritenumber = entity.walkSprites[currentSprite - 1];
             }
             counter = 0;
         }

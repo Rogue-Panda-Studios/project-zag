@@ -42,6 +42,10 @@ public class Block {
      * The image that holds sprites for a simple zombie
      */
     BufferedImage simplezombie;
+    /**
+     * The image that holds sprites for a simple flying zombee
+     */
+    BufferedImage zombee;
 
     /**
      *
@@ -56,6 +60,7 @@ public class Block {
             objectsheet = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/objectSheet.png"));
             buildingsheet = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/buildingsheet.png"));
             simplezombie = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/BasicZombie1.png"));
+            zombee = ImageIO.read(getClass().getResource("/com/RoguePanda/ZAG/Images/ZomBee1.png"));
         } catch (IOException ex) {
             Logger.getLogger(Block.class.getName()).log(Level.SEVERE, null, ex);
         }
