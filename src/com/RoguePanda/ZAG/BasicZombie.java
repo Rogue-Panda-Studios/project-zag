@@ -47,7 +47,6 @@ public class BasicZombie extends Entity {
     BasicZombie(String name, int health, Point location, Block l, Building b) {
         super(name, health, location, l, b);
         falling = true;
-
         setSpriteSheet(level.simplezombie);
         setSprite(ImageManipulator.selectFromSheet(spriteSheet, 2, 64, 64));
         deathSprites = new int[]{4, 5, 6, 7};

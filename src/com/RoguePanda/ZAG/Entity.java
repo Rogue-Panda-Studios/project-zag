@@ -70,6 +70,7 @@ public abstract class Entity {
      * The list of tasks for the Entity to execute
      */
     protected AITasks tasks;
+    Point spriteSize;
     protected BufferedImage spriteSheet;
     protected BufferedImage sprite;
     protected Block level;
@@ -104,37 +105,16 @@ public abstract class Entity {
             location = l;
             boundingBox = new BoundBox(l.getX(), l.getY(), 0, 0);
             inside = null;
-            System.out.println(name + " created in " + inside);
+            spriteSize = new Point(64, 64);
         } catch (Exception ex) {
             Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     Entity(String n, int h, Point2D l, Block le, Building b) {
-        try {
-            tasks = new AITasks(this);
-            direction = 1;
-            location = l;
-            health = h;
-            maxHealth = h;
-            armour = 0;
-            deathCause = 0;
-            dead = false;
-            name = n;
-            actionState = 0;
-            level = le;
-            spritenumber = 0;
-            isPlayer = false;
-            velocity = new Point(0, 0);
-            monster = true;
-            clippable = false;
-            location = l;
-            boundingBox = new BoundBox(l.getX(), l.getY(), 0, 0);
-            inside = b;
-            System.out.println(name + " created in " + inside);
-        } catch (Exception ex) {
-            Logger.getLogger(Entity.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        this(n, h, l, le);
+        inside = b;
+        System.out.println(name + " created in " + inside);
     }
 
     /**
@@ -234,8 +214,6 @@ public abstract class Entity {
     public Point2D getLocation() {
         return location;
     }
-
-    
 
     /**
      * Sets the spriteSheet for the entity

@@ -22,11 +22,13 @@ public class AIFlyingWander extends AI {
             } else {
                 waiter++;
             }
+            walkCycle();
         } else {
             pass = false;
         }
         return pass;
     }
+
     private void walkCycle() {
         if (counter < 5) {
             counter++;

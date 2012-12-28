@@ -529,7 +529,7 @@ class CardGUI extends JFrame implements Runnable {
                     currentGame.currentLevel.entities.add(new ZomBee(
                             "ZomBee" + currentGame.currentLevel.entities.size(),
                             5,
-                            new Point(100, 700),
+                            new Point(100, 1400),
                             currentGame.currentLevel));
                 }
                 if (ke.getKeyCode() == 114) {
@@ -539,13 +539,6 @@ class CardGUI extends JFrame implements Runnable {
                             new Point(200, 100),
                             currentGame.currentLevel,
                             0));
-                }
-                if (ke.getKeyChar() == phazeKey) {
-                    if (currentGame.player.phazing) {
-                        currentGame.player.phazing = false;
-                    } else {
-                        currentGame.player.phazing = true;
-                    }
                 }
                 if (ke.getKeyChar() == pauseKey) {
                     if (paused) {
@@ -579,6 +572,5 @@ class CardGUI extends JFrame implements Runnable {
             }
             //</editor-fold>
         });
-
     }
 }

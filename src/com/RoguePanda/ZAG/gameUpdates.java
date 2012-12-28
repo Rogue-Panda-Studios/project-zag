@@ -112,7 +112,6 @@ public class gameUpdates implements Runnable {
             // System.out.println("update");
             counter = 0;
         }
-        postMotionUpdates();
         hzb.setValue((int) player.location.getX() - 375);
         vsb.setValue((int) player.location.getY() - 400);
     }
@@ -132,105 +131,204 @@ public class gameUpdates implements Runnable {
 
     private void motionUpdates() {
         Game currentGame = gui.currentGame;
+        for (Entity e : gui.currentGame.currentLevel.entities) {
+            double nex = e.velocity.getX(), ney = e.velocity.getY();
+            //<editor-fold defaultstate="collapsed" desc="Entity Friction and Gravity">
+            if (e.canFall) {
+                ney += .2;
+                if (!e.falling) {
+                    if (nex > 0) {
+                        if (nex >= .2) {
+                            nex -= .2;
+                        } else {
+                            nex = 0;
+                        }
+                    } else if (nex < 0) {
+                        if (nex <= -.2) {
+                            nex += .2;
+                        } else {
+                            nex = 0;
+                        }
+                    }
+                } else {
+                    if (nex >= .02) {
+                        nex -= .02;
+                    } else if (nex <= -.02) {
+                        nex += .02;
+                    }
+                }
+            }
+            //</editor-fold>
+            //<editor-fold defaultstate="collapsed" desc="Entity/Level-Boundry collision and Entity Action">
+            if (e.boundingBox.getMinX() < 0) {
+                e.boundingBox.x = 0;
+                nex = 0;
+            } else if (e.boundingBox.x > gui.currentGame.currentLevel.size.width - e.boundingBox.width) {
+                e.boundingBox.x = (gui.currentGame.currentLevel.size.width - e.boundingBox.width);
+                nex = 0;
+            }
+            if (e.boundingBox.y > (gui.currentGame.currentLevel.size.height - 110) - e.boundingBox.height) {
+                e.boundingBox.y = (gui.currentGame.currentLevel.size.height - 110) - e.boundingBox.height;
+                ney = 0;
+                e.falling = false;
+            }
+            //</editor-fold>
+            //<editor-fold defaultstate="collapsed" desc="Entity/Clippable-Entity Collision">
+            for (Entity en : gui.currentGame.currentLevel.entities) {
+                if (en.clippable && en.inside == e.inside && e.boundingBox.intersects(en.boundingBox)) {
+                    if (en.boundingBox.getCenterX() >= e.boundingBox.getCenterX()) {
+                        if (e.velocity.getX() > 0) {
+                            nex = 0;
+                        }
+                    } else if (en.boundingBox.getCenterX() <= e.boundingBox.getCenterX()) {
+                        if (e.velocity.getX() < 0) {
+                            nex = 0;
+                        }
+                    }
+                    if (en.boundingBox.getCenterY() >= e.boundingBox.getCenterY()) {
+                        if (e.velocity.getY() > 0) {
+                            ney = 0;
+                            e.falling = false;
+                        }
+                    }
+                }
+            }
+            //</editor-fold>
+            //<editor-fold defaultstate="collapsed" desc="Entity/Building Collision">
+            if (e.inside != null) {
+                if (e.boundingBox.getMinX() <= e.inside.location.x) {
+                    if (nex < 0) {
+                        nex = 0;
+                    }
+                }
+                if (e.inside.location.x + e.inside.insideSprite.getWidth() <= e.boundingBox.getMaxX()) {
+                    if (nex > 0) {
+                        nex = 0;
+                    }
+                }
+                for (BuildingObject bo : e.inside.getObjects()) {
+                    if (bo.boundingBox.intersects(e.boundingBox)) {
+                        if (e.boundingBox.getCenterX() > bo.boundingBox.getBounds().getCenterX()) {
+                            if (nex < 0) {
+                                nex = 0;
+                            }
+                        } else if (e.boundingBox.getCenterX() < bo.boundingBox.getBounds().getCenterX()) {
+                            if (nex > 0) {
+                                // nex = 0;
+                            }
+                        }
+                        if (e.boundingBox.getCenterY() <= bo.boundingBox.getBounds().getMaxY()) {
+                            if (ney > 0) {
+                                ney = 0;
+                                e.falling = false;
+                            }
+                        } else {
+                            if (ney < 0) {
+                                ney = 0;
+                                e.falling = false;
+                            }
+                        }
+                    }
+                }
+            }
+            //</editor-fold>
+            e.velocity = new Point2D.Double(nex, ney);
+            e.boundingBox.x += e.velocity.getX();
+            e.boundingBox.y += e.velocity.getY();
+            e.tasks.action();
+        }
+        //<editor-fold defaultstate="collapsed" desc="Player Physics">
+        double npx = player.velocity.getX(), npy = player.velocity.getY();
+        //<editor-fold defaultstate="collapsed" desc="Player Friction and Gravity">
+        npy += .15;
+        if (!player.falling) {
+            if (npx > 0) {
+                if (npx >= .2) {
+                    npx -= .2;
+                } else {
+                    npx = 0;
+                }
+            } else if (npx < 0) {
+                if (npx <= -.2) {
+                    npx += .2;
+                } else {
+                    npx = 0;
+                }
+            }
+        } else {
+            if (npx >= .02) {
+                npx -= .02;
+            } else if (npx <= -.02) {
+                npx += .02;
+            }
+        }
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Player/Level-Boundry Collision and Player Action">
+        player.tasks.action();
+        if (player.boundingBox.x < 0) {
+            player.boundingBox.x = 0;
+            npx = 0;
+        } else if (player.boundingBox.x > (gui.currentGame.currentLevel.size.width - player.boundingBox.width)) {
+            player.boundingBox.x = (gui.currentGame.currentLevel.size.width - player.boundingBox.width);
+            npx = 0;
+        }
+        if (player.boundingBox.y > (gui.currentGame.currentLevel.size.height - 110) - player.boundingBox.height) {
+            player.boundingBox.y = (gui.currentGame.currentLevel.size.height - 110) - player.boundingBox.height;
+            npy = 0;
+            player.falling = false;
+        }
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Key actions">
         if (!gui.paused) {
-            if (/*!currentGame.player.falling &&*/!currentGame.player.dead) {
+            if (!currentGame.player.dead) {
                 if (gui.pressed.contains(gui.rightKey)) {
-                    if (currentGame.player.velocity.getX() > 2) {
-                    } else {
-                        currentGame.player.velocity.setLocation(currentGame.player.velocity.getX() + 1, currentGame.player.velocity.getY());
+                    if (npx <= 3) {
+                        npx += 1;
                     }
                 }
                 if (gui.pressed.contains(gui.leftKey)) {
-                    if (currentGame.player.velocity.getX() < -2) {
-                    } else {
-                        currentGame.player.velocity.setLocation(currentGame.player.velocity.getX() - 1, currentGame.player.velocity.getY());
+                    if (npx >= -3) {
+                        npx -= 1;
                     }
+                }
+                if (gui.pressed.contains(gui.phazeKey)) {
+                    player.phazing = true;
+                } else {
+                    player.phazing = false;
                 }
                 if (!player.falling) {
                     if (gui.pressed.contains(gui.jumpKey)) {
-                        currentGame.player.velocity.setLocation(currentGame.player.velocity.getX(), -3);
+                        npy -= 3;
                         currentGame.player.falling = true;
                     }
                 }
             }
         }
-        for (Entity e : gui.currentGame.currentLevel.entities) {
-            e.tasks.action();
-            if (e.boundingBox.getMinX() < 0) {
-                e.boundingBox.x = 0;
-                e.velocity.setLocation(0, e.velocity.getY());
-            } else if (e.boundingBox.x > gui.currentGame.currentLevel.size.width - e.boundingBox.width) {
-                e.boundingBox.x = (gui.currentGame.currentLevel.size.width - e.boundingBox.width);
-                e.velocity.setLocation(0, e.velocity.getY());
-            }
-            if (e.boundingBox.y > (gui.currentGame.currentLevel.size.height - 110) - e.boundingBox.height) {
-                e.boundingBox.y = (gui.currentGame.currentLevel.size.height - 110) - e.boundingBox.height;
-                e.velocity.setLocation(e.velocity.getX(), 0);
-                e.falling = false;
-            }
-        }
-        {
-            player.tasks.action();
-            if (player.boundingBox.x < 0) {
-                player.boundingBox.x = 0;
-                player.velocity.setLocation(0, player.velocity.getY());
-            } else if (player.boundingBox.x > (gui.currentGame.currentLevel.size.width - player.boundingBox.width)) {
-                player.boundingBox.x = (gui.currentGame.currentLevel.size.width - player.boundingBox.width);
-
-                player.velocity.setLocation(0, player.velocity.getY());
-            }
-            if (player.boundingBox.y > (gui.currentGame.currentLevel.size.height - 110) - player.boundingBox.height) {
-                player.boundingBox.y = (gui.currentGame.currentLevel.size.height - 110) - player.boundingBox.height;
-                player.velocity.setLocation(player.velocity.getX(), 0);
-                player.falling = false;
-            }
-        }
-    }
-
-    private void slowMotionUpdates() {
-        for (Entity e : gui.currentGame.currentLevel.entities) {
-            if (e.canFall) {
-                e.velocity.setLocation(e.velocity.getX(), e.velocity.getY() + 1);
-                if (!e.falling) {
-                    if (e.velocity.getX() > 0) {
-                        e.velocity.setLocation(e.velocity.getX() - 1, e.velocity.getY());
-                    } else if (e.velocity.getX() < 0) {
-                        e.velocity.setLocation(e.velocity.getX() + 1, e.velocity.getY());
-                    }
-                }
-            }
-        }
-        player.velocity.setLocation(player.velocity.getX(), player.velocity.getY() + 1);
-        if (!player.falling) {
-            if (player.velocity.getX() > 0) {
-                player.velocity.setLocation(player.velocity.getX() - 1, player.velocity.getY());
-            } else if (player.velocity.getX() < 0) {
-                player.velocity.setLocation(player.velocity.getX() + 1, player.velocity.getY());
-            }
-        }
-    }
-
-    private void postMotionUpdates() {
-        double npx = player.velocity.getX(), npy = player.velocity.getY();
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Player/Clippable-Entity Collision">
         for (Entity en : gui.currentGame.currentLevel.entities) {
             if (en.clippable && player.inside == en.inside && player.boundingBox.intersects(en.boundingBox)) {
-                if (en.boundingBox.getCenterX() >= player.boundingBox.getCenterX()) {
-                    if (player.velocity.getX() > 0) {
-                        npx = 0;
-                    }
-                } else if (en.boundingBox.getCenterX() <= player.boundingBox.getCenterX()) {
-                    if (player.velocity.getX() < 0) {
-                        npx = 0;
-                    }
-                }
-                if (en.boundingBox.getMinY() >= player.boundingBox.getMaxY()) {
-                    if (player.velocity.getY() > 0) {
-                        npy = 0;
-                        player.falling = false;
-                    }
-                }
+                /*if (en.boundingBox.getCenterX() >= player.boundingBox.getCenterX()) {
+                 if (player.velocity.getX() > 0) {
+                 npx = 0;
+                 }
+                 } else if (en.boundingBox.getCenterX() <= player.boundingBox.getCenterX()) {
+                 if (player.velocity.getX() < 0) {
+                 npx = 0;
+                 }
+                 }
+                 if (en.boundingBox.getMinY() >= player.boundingBox.getMaxY()) {
+                 if (player.velocity.getY() > 0) {
+                 npy = 0;
+                 player.falling = false;
+                 }
+                 }*/
+                npx = npx / 2;
+                npy = npy / 2;
             }
         }
+        //</editor-fold>
+        //<editor-fold defaultstate="collapsed" desc="Player/Building Collision">
         if (player.inside != null) {
             if (player.inside.location.x >= player.boundingBox.getMinX()) {
                 if (npx < 0) {
@@ -268,69 +366,13 @@ public class gameUpdates implements Runnable {
                 }
             }
         }
+        //</editor-fold>
         player.velocity = new Point2D.Double(npx, npy);
         player.boundingBox.x += player.velocity.getX();
         player.boundingBox.y += player.velocity.getY();
-        for (Entity e : gui.currentGame.currentLevel.entities) {
-            double nex = e.velocity.getX(), ney = e.velocity.getY();
-            if (e.inside != null) {
-                if (e.boundingBox.getMinX() <= e.inside.location.x) {
-                    if (nex < 0) {
-                        nex = 0;
-                    }
-                }
-                if (e.inside.location.x + e.inside.insideSprite.getWidth() <= e.boundingBox.getMaxX()) {
-                    if (nex > 0) {
-                        nex = 0;
-                    }
-                }
-                for (BuildingObject bo : e.inside.getObjects()) {
-                    if (bo.boundingBox.intersects(e.boundingBox)) {
-                        if (e.boundingBox.getCenterX() > bo.boundingBox.getBounds().getCenterX()) {
-                            if (nex < 0) {
-                                nex = 0;
-                            }
-                        } else if (e.boundingBox.getCenterX() < bo.boundingBox.getBounds().getCenterX()) {
-                            if (nex > 0) {
-                                // nex = 0;
-                            }
-                        }
-                        if (e.boundingBox.getCenterY() <= bo.boundingBox.getBounds().getMaxY()) {
-                            if (ney > 0) {
-                                ney = 0;
-                                e.falling = false;
-                            }
-                        } else {
-                            if (ney < 0) {
-                                ney = 0;
-                                e.falling = false;
-                            }
-                        }
-                    }
-                }
-            }
-            for (Entity en : gui.currentGame.currentLevel.entities) {
-                if (en.clippable && en.inside == e.inside && e.boundingBox.intersects(en.boundingBox)) {
-                    if (en.boundingBox.getCenterX() >= e.boundingBox.getCenterX()) {
-                        if (e.velocity.getX() > 0) {
-                            nex = 0;
-                        }
-                    } else if (en.boundingBox.getCenterX() <= e.boundingBox.getCenterX()) {
-                        if (e.velocity.getX() < 0) {
-                            nex = 0;
-                        }
-                    }
-                    if (en.boundingBox.getCenterY() >= e.boundingBox.getCenterY()) {
-                        if (e.velocity.getY() > 0) {
-                            ney = 0;
-                            e.falling = false;
-                        }
-                    }
-                }
-                e.velocity = new Point2D.Double(nex, ney);
-            }
-            e.boundingBox.x += e.velocity.getX();
-            e.boundingBox.y += e.velocity.getY();
-        }
+        //</editor-fold>
+    }
+
+    private void slowMotionUpdates() {
     }
 }

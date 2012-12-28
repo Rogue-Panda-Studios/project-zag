@@ -65,15 +65,15 @@ public class AITasks {
                 entity.setSprite(ImageManipulator.selectFromSheet(
                         entity.spriteSheet,
                         entity.spritenumber,
-                        64,
-                        64));
+                        entity.spriteSize.x,
+                        entity.spriteSize.y));
             } else if (entity.direction < 0) {
                 entity.setSprite(ImageManipulator.flipImage(
                         ImageManipulator.selectFromSheet(
                         entity.spriteSheet,
                         entity.spritenumber,
-                        64,
-                        64)));
+                        entity.spriteSize.x,
+                        entity.spriteSize.y)));
             }
         }
     }

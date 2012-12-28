@@ -6,6 +6,7 @@ package com.RoguePanda.ZAG;
 
 import com.RoguePanda.Library.ImageManipulator;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 /**
  *
@@ -17,13 +18,21 @@ public class ZomBee extends Entity {
         super(name, health, location, l);
         falling = false;
         setSpriteSheet(level.zombee);
-        setSprite(ImageManipulator.selectFromSheet(spriteSheet, 0, 64, 64));
+        setSprite(ImageManipulator.selectFromSheet(spriteSheet, 0, 25, 16));
         canFall = false;
-        deathSprites = new int[]{1};
+        deathSprites = new int[]{4};
         walkSprites = new int[]{0};
         chaseSprites = new int[]{0};
-        spritenumber = 1;
+        spritenumber = 0;
+        spriteSize = new Point(25, 16);
         tasks.add(new AIFlyingWander(this));
         tasks.add(new AIDeathAnimation(this));
+    }
+
+    public void onDeath() {
+        super.onDeath();
+        canFall = true;
+        falling = true;
+        velocity = new Point2D.Double(velocity.getX(), 3);
     }
 }

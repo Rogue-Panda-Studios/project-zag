@@ -28,6 +28,7 @@ public class GameCanvas extends JPanel {
     BuildingObject bo3;
     BuildingObject bo4;
     Building b;
+
     /**
      *
      * @param aThis The gui that this is attached to
@@ -52,12 +53,12 @@ public class GameCanvas extends JPanel {
         int[][] chunks2 = new int[3][3];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {
-                chunks2[x][y] = 16;
+                chunks2[x][y] = 16 + x + y;
             }
         }
         chunks[1][1] = 1;
         chunks[0][1] = 4;
-        chunks[2][2] = 2;
+        chunks[2][2] = 3;
         b = new Building(chunks, chunks2, bos, new Point(500, 0), cgui.currentGame.currentLevel);
         cgui.currentGame.currentLevel.buildings.add(b);
         this.setSize(1600, 600);
