@@ -27,6 +27,8 @@ public class GameCanvas extends JPanel {
     BuildingObject bo2;
     BuildingObject bo3;
     BuildingObject bo4;
+    BuildingObject bo5;
+    BuildingObject bo6;
     Building b;
 
     /**
@@ -39,11 +41,15 @@ public class GameCanvas extends JPanel {
         bo2 = new BuildingObject(0, new Point(64, 256));
         bo3 = new BuildingObject(1, new Point(0, 192));
         bo4 = new BuildingObject(2, new Point(0, 192));
+        bo5 = new BuildingObject(3, new Point(128, 192));
+        bo6 = new BuildingObject(3, new Point(256, 192));
         ArrayList<BuildingObject> bos = new ArrayList<>();
         bos.add(bo);
         bos.add(bo2);
         bos.add(bo3);
         bos.add(bo4);
+        bos.add(bo5);
+        bos.add(bo6);
         int[][] chunks = new int[3][3];
         for (int x = 0; x < 3; x++) {
             for (int y = 0; y < 3; y++) {

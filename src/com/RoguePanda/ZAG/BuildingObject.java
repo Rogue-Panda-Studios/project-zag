@@ -28,8 +28,8 @@ class BuildingObject {
         phazeBottom = false;
         switch (type) {
             case 0:
-                xpoints = new int[]{0, 8, 8, 16, 16, 24, 24, 32, 32, 40, 40, 48, 48, 56, 56, 64, 64, 0};
-                ypoints = new int[]{0, 0, 8, 8, 16, 16, 24, 24, 32, 32, 40, 40, 48, 48, 56, 56, 64, 64};
+                xpoints = new int[]{0, 8, 8, 16, 16, 24, 24, 32, 32, 40, 40, 48, 48, 56, 56, 64, 64};
+                ypoints = new int[]{0, 0, 8, 8, 16, 16, 24, 24, 32, 32, 40, 40, 48, 48, 56, 56, 64};
                 phaze = true;
                 sprite = new BufferedImage(64, 64, BufferedImage.TYPE_INT_ARGB);
                 break;
@@ -44,6 +44,11 @@ class BuildingObject {
                 //phaze = true;
                 phazeBottom = true;
                 sprite = new BufferedImage(128, 4, BufferedImage.TYPE_INT_ARGB);
+                break;
+            case 3:
+                xpoints = new int[]{0, 128, 128, 0};
+                ypoints = new int[]{0, 0, 8, 8};
+                sprite = new BufferedImage(128, 8, BufferedImage.TYPE_INT_ARGB);
                 break;
             default:
                 xpoints = new int[]{0, 1, 1, 0};

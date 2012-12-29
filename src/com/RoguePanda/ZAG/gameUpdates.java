@@ -308,21 +308,6 @@ public class gameUpdates implements Runnable {
         //<editor-fold defaultstate="collapsed" desc="Player/Clippable-Entity Collision">
         for (Entity en : gui.currentGame.currentLevel.entities) {
             if (en.clippable && player.inside == en.inside && player.boundingBox.intersects(en.boundingBox)) {
-                /*if (en.boundingBox.getCenterX() >= player.boundingBox.getCenterX()) {
-                 if (player.velocity.getX() > 0) {
-                 npx = 0;
-                 }
-                 } else if (en.boundingBox.getCenterX() <= player.boundingBox.getCenterX()) {
-                 if (player.velocity.getX() < 0) {
-                 npx = 0;
-                 }
-                 }
-                 if (en.boundingBox.getMinY() >= player.boundingBox.getMaxY()) {
-                 if (player.velocity.getY() > 0) {
-                 npy = 0;
-                 player.falling = false;
-                 }
-                 }*/
                 npx = npx / 2;
                 npy = npy / 2;
             }
