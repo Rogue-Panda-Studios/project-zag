@@ -8,11 +8,6 @@ package com.RoguePanda.ZAG;
  *
  * @author Oa10712
  */
-public class Main {
+class AITasks {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-    }
 }
