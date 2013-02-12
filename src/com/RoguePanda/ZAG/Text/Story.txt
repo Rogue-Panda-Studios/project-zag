@@ -1,6 +1,0 @@
-The story line will go here. For now, there will be a list of elements to add.
-This should be segmentized so that it can be handled in papers that the play can
-collect throughout the game.
-    * Virus origin, funded by military as bio-weapon
-    * The player has developed a resistance to the airborne virus
-    * Cure?
